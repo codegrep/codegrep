@@ -89,7 +89,7 @@ export class SearchForm extends React.Component {
       <div>
         Codegrep!
         <br/>
-      <input disabled type="text" value={searchString} onChange={this.handleSearchChange} placeholder="DISABLED JA"/>
+      <input type="text" value={searchString} onChange={this.handleSearchChange} placeholder="DISABLED JA"/>
         <br/>
         <input type="text" value={location} onChange={this.handleLocationChange} placeholder="Location"/>
         <br/>

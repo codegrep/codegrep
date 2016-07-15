@@ -23013,7 +23013,7 @@
 	        null,
 	        'Codegrep!',
 	        _react2.default.createElement('br', null),
-	        _react2.default.createElement('input', { disabled: true, type: 'text', value: searchString, onChange: this.handleSearchChange, placeholder: 'DISABLED JA' }),
+	        _react2.default.createElement('input', { type: 'text', value: searchString, onChange: this.handleSearchChange, placeholder: 'DISABLED JA' }),
 	        _react2.default.createElement('br', null),
 	        _react2.default.createElement('input', { type: 'text', value: location, onChange: this.handleLocationChange, placeholder: 'Location' }),
 	        _react2.default.createElement('br', null),
