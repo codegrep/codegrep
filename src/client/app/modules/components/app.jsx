@@ -12,7 +12,6 @@ export class ViewToggler extends React.Component {
   }
 
   handleToggle(e) {
-    console.log("TOGGLED");
     this.props.toggleCodeView(!this.props.full);
   }
 

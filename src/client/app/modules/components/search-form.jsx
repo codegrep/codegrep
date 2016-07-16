@@ -81,7 +81,7 @@ export class SearchForm extends React.Component {
         </div>
         <div className="ResultsContainer">
           <div className="Summary">
-            {results.length} results found for string {`'${searchString}'`} in  {`'${location}'`}
+            {results.length} results found for string <code>{`'${searchString}'`}</code> in  <code>{`'${location}'`}</code>
           </div>
           <div className="Results">
             {

@@ -28,6 +28,11 @@
 
 .Summary {
   margin-bottom: 16px;
+  code {
+    font-family: monospace !important;
+    color: #f5da55;
+    font-weight: 500;
+  }
 }
 
 .SnippetLink {
