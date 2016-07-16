@@ -25,6 +25,7 @@ export class FileViewer extends React.Component {
   }
 
   loadFile() {
+    this.setState({fileContent: ''});
     fetch(`/api/file?f=${this.props.fileUrl}`)
       .then((response) => {
         return response.text();
@@ -38,8 +39,10 @@ export class FileViewer extends React.Component {
     this.loadFile();
   }
 
-  componentDidUpdate() {
-    this.loadFile();
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps !== this.props) {
+      this.loadFile();
+    }
   }
 
   handleToggle(e) {
