@@ -25,6 +25,7 @@
     "koa-route": "^2.4.2",
     "koa-send": "^3.2.0",
     "koa-static": "^2.0.0",
+    "line-by-line": "^0.1.5",
     "node-sass": "^3.8.0",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
