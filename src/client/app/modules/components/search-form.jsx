@@ -6,6 +6,10 @@ import {
   updateLocation,
   updateResults,
 } from 'reducers/search'
+import {
+  updateFileUrl,
+  toggleCodeView
+} from 'reducers/ui-filters'
 import {resultsFromLocationSelector} from 'selectors/results';
 import 'whatwg-fetch';
 
@@ -21,15 +25,15 @@ export const LineNumbers = ({start, length}) => {
 
 export const CodeSnippet = ({
   result,
-  compact = false
+  openFile,
 }) => {
   var {file, lno, above_lines, the_line, below_lines} = result;
   var code = above_lines.concat(the_line, below_lines);
   return (
     <div className="SnippetContainer">
-      <a href={file} className="SnippetLink">{file}</a>
+      <a className="SnippetLink" onClick={() => {openFile(file)}}>{file}</a>
       <pre className="line-number Snippet-code">
-        <LineNumbers start={Math.max(lno-3, 0)} length={code.length}/>
+        <LineNumbers start={Math.max(lno-3, 1)} length={code.length}/>
         <code className="language-javascript">
           {
             code.join('\n')
@@ -45,7 +49,8 @@ export class SearchForm extends React.Component {
     super(props);
     this.handleSearchChange = this.handleSearchChange.bind(this)
     this.handleLocationChange = this.handleLocationChange.bind(this)
-    this.debounceUpdateSearch = _.debounce(this.updateSearch, 200);
+    this.openFile = this.openFile.bind(this)
+    this.debounceUpdateSearch = _.debounce(this.updateSearch, 200)
   }
 
   handleSearchChange(e) {
@@ -56,6 +61,11 @@ export class SearchForm extends React.Component {
   handleLocationChange(e) {
     this.props.updateLocation(e.target.value);
     this.debounceUpdateSearch(this.props.searchString, e.target.value);
+  }
+
+  openFile(url) {
+    this.props.toggleCodeView(true);
+    this.props.updateFileUrl(url)
   }
 
   updateSearch(searchString, location) {
@@ -77,7 +87,7 @@ export class SearchForm extends React.Component {
     return (
       <div className="SearchForm">
         <div className="FormContainer">
-          { full? null : <div className="Slogan">Find text</div> }
+          { full? null : <div className="Slogan">Find anything</div> }
           <input className="FormInput" type="text" value={searchString} onChange={this.handleSearchChange} placeholder="Search String"/>
           <input className="FormInput" type="text" value={location} onChange={this.handleLocationChange} placeholder="File directory"/>
         </div>
@@ -90,7 +100,7 @@ export class SearchForm extends React.Component {
           <div className="Results">
             {
               results.map((result, i) => (
-                <CodeSnippet key={i} result={result}/>
+                <CodeSnippet key={i} result={result} openFile={this.openFile}/>
               ))
             }
           </div>
@@ -111,5 +121,7 @@ export const ConnectedSearchForm = connect(
     updateSearchString: updateSearchString,
     updateLocation: updateLocation,
     updateResults: updateResults,
+    updateFileUrl: updateFileUrl,
+    toggleCodeView: toggleCodeView
   }
 )(SearchForm);

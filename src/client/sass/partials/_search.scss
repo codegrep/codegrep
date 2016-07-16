@@ -11,6 +11,7 @@
   margin-top: 13px;
   margin-right: 16px;
   font-weight: 500;
+  font-size: 18px;
 }
 
 .FormContainer {
@@ -18,7 +19,7 @@
   margin-bottom: 24px;
 
   input {
-    font-size: 14px;
+    font-size: 18px;
     flex: 1;
     padding: 12px;
     border: none;
@@ -73,6 +74,8 @@
   color: #E19BF7;
   font-family: monospace;
   margin-bottom: 8px;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .Snippet-code {

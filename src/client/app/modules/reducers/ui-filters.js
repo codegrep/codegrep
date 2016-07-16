@@ -6,10 +6,18 @@ export const toggleCodeView = (value) => {
   }
 }
 
+export const updateFileUrl = (fileUrl) => {
+  return {
+    type: 'UPDATE_FILE_URL',
+    fileUrl,
+  }
+}
+
 const getDefaultState = () => ({
   views: {
     search: true,
     full: false,
+    fileUrl: null,
   }
 })
 
@@ -27,6 +35,11 @@ export default (state, action) => {
           ...state.views,
           [action.view]: action.value
         }
+      }
+    case 'UPDATE_FILE_URL':
+      return {
+        ...state,
+        fileUrl: action.fileUrl,
       }
     default:
       return state;

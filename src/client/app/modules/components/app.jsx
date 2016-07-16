@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import classnames from 'classnames';
 import {ConnectedSearchForm} from 'components/search-form'
-import {FullView} from 'components/full-view'
+import {ConnectedFileViewer} from 'components/file-viewer'
 import {toggleCodeView} from 'reducers/ui-filters'
 
 export class ViewToggler extends React.Component {
@@ -34,9 +34,8 @@ export const App = ({views, toggleCodeView}) => {
   console.log(views);
   return (
     <div className="App">
-      <ViewToggler full={full} toggleCodeView={toggleCodeView}/>
       {search || !full? <ConnectedSearchForm/>: null}
-      {full? <FullView/>: null}
+      {full? <ConnectedFileViewer/>: null}
     </div>
   )
 }
