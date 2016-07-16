@@ -46,3 +46,6 @@ src/client/stylesheets/
 
 # indexes
 .searchindex
+
+# distribution
+dist/

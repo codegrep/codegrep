@@ -3,6 +3,7 @@ var path = require('path');
 
 var BUILD_DIR = path.resolve(__dirname, 'public');
 var APP_DIR = path.resolve(__dirname, 'src/client/app');
+var WATCH = process.env.NOWATCH ? false : true;
 
 var config = {
   entry: APP_DIR + '/index.jsx',
@@ -27,7 +28,7 @@ var config = {
       'node_modules',
     ]
   },
-  watch: true
+  watch: WATCH
 };
 
 module.exports = config;
