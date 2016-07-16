@@ -9,18 +9,30 @@ import {
 import {resultsFromLocationSelector} from 'selectors/results';
 import 'whatwg-fetch';
 
+export const LineNumbers = ({start, length}) => {
+  return (
+    <div className="LineNumberContainer">
+        {_.range(start, start+length).map((number) => (
+          <div key={number} className="LineNumber">{number}</div>
+        ))}
+    </div>
+  )
+}
+
 export const CodeSnippet = ({
   result,
   compact = false
 }) => {
   var {file, lno, above_lines, the_line, below_lines} = result;
+  var code = above_lines.concat(the_line, below_lines);
   return (
     <div className="SnippetContainer">
       <a href={file} className="SnippetLink">{file}</a>
-      <pre className="line-numbers Snippet-code" data-start={lno-3} data-line={lno}>
+      <pre className="line-number Snippet-code">
+        <LineNumbers start={Math.max(lno-3, 0)} length={code.length}/>
         <code className="language-javascript">
           {
-            above_lines.concat(the_line, below_lines).join('\n')
+            code.join('\n')
           }
         </code>
       </pre>
