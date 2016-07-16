@@ -20,26 +20,24 @@ export class FileViewer extends React.Component {
   }
 
   componentDidMount() {
-    Prism.fileHighlight()
+    Prism.fileHighlight(true)
   }
 
   componentDidUpdate() {
-    Prism.fileHighlight()
+    Prism.fileHighlight(true)
   }
 
   handleToggle(e) {
-    console.log("WOO");
     this.props.toggleCodeView(false);
     this.props.updateFileUrl(null);
   }
 
   render() {
     var {fileUrl, toggleCodeView, updateFileUrl} = this.props
-    console.log("RERENDER?");
     return (
       <div className="FullView">
         <CloseButton handleToggle={this.handleToggle}/>
-        { fileUrl? (<pre className="line-numbers language-javascript" data-src={'api/file?f=' + fileUrl}></pre>) : null }
+        { fileUrl? (<pre className="line-numbers" data-src={'api/file?f=' + fileUrl}></pre>) : null }
       </div>
     )
   }
