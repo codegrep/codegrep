@@ -11,6 +11,7 @@ const serve = require('koa-static');
 const app = koa();
 const exec = require('child-process-promise').exec;
 const Reader = require('line-by-line');
+const CSEARCHROOT = process.env.CSEARCHROOT || '.';
 
 // searches index location
 process.env.CODEGREP_PORT = process.env.CODEGREP_PORT || 3000;
@@ -64,7 +65,7 @@ app.use(route.get('/api/search', function *() {
       });
       reader.on('end', function() {
         resolve({
-          'file': file,
+          'file': path.relative(CSEARCHROOT, file),
           'lno': lno,
           'above_lines': aboveLines,
           'below_lines': belowLines,
@@ -74,7 +75,7 @@ app.use(route.get('/api/search', function *() {
     });
   });
 
-  this.body = yield matches;
+  this.body = yield Promise.all(matches);
 }));
 
 app.use(route.get('/api/file', function *() {
@@ -82,8 +83,7 @@ app.use(route.get('/api/file', function *() {
   if (typeof(f) !== 'string') {
     return this.status = 400;
   }
-  const filePath = path.relative('.', f);
-  yield send(this, filePath);
+  yield send(this, f);
 }));
 
 // serves static assets
