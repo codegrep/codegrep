@@ -1,10 +1,11 @@
 #!/bin/bash
 
 export CSEARCHINDEX='.searchindex'
+export CSEARCHROOT='.'
 export CODEGREP_PORT=3000
 
 echo "[codegrep] indexing codebase into $CSEARCHINDEX ..."
-./bin/cindex .
+./bin/cindex $CSEARCHROOT
 
 echo "[codegrep] starting webserver on port $CODEGREP_PORT ..."
 nodemon ./src/server/app.js
