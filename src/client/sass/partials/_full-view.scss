@@ -2,4 +2,9 @@
   background-color: #1b1d23;
   flex: 3;
   height: 100%;
+  overflow: scroll;
+
+  pre {
+    background: #1b1d23 !important;
+  }
 }

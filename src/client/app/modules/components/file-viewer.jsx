@@ -21,7 +21,7 @@ export class FileViewer extends React.Component {
     console.log(fileUrl)
     return (
       <div className="FullView">
-        { fileUrl? (<pre className="line-numbers" data-src={fileUrl}></pre>) : null }
+        { fileUrl? (<pre className="line-numbers language-javascript" data-src={'api/file?f=' + fileUrl}></pre>) : null }
       </div>
     )
   }
