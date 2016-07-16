@@ -37,13 +37,13 @@ button {
 }
 
 .TogglerContainer {
-  font-family: monospace;
+  font-weight: bold;
   position: fixed;
   display: flex;
   right: 32px;
   top: 16px;
   max-width: 100px;
-
+  z-index: 1000;
 }
 
 .Toggler {
@@ -55,6 +55,9 @@ button {
   margin-left: 1px;
   border-radius: 3px;
 
+  &:hover {
+    background-color: lighten(#282c34, 6)
+  }
 
   &.is-active {
     background-color: #2b99ce;
@@ -62,4 +65,8 @@ button {
       background-color: lighten(#2b99ce, 6);
     }
   }
+}
+
+.prism-show-language-label {
+  display: none !important;
 }

@@ -93,9 +93,13 @@ export class SearchForm extends React.Component {
         </div>
         <div className="ResultsContainer">
           <div className="Summary">
-            <span>
-              {results.length} results found for string <code>{`'${searchString}'`}</code> in  <code>{`'${location}'`}</code>
-            </span>
+            {
+              searchString.length === 0 ?
+                <span> Type in the searchbox to get started! </span> :
+                <span>
+                  {results.length} results found for string <code>{`'${searchString}'`}</code> in  <code>{`'${location}'`}</code>
+                </span>
+            }
           </div>
           <div className="Results">
             {
