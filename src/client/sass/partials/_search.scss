@@ -80,25 +80,27 @@
 }
 
 .Snippet-code {
-  background: rgb(40, 44, 52) !important;
+  padding: 16px;
+  background: #2b303b;
   border: 1px solid #181a1f;
-  padding-top: 8px !important;
-  padding-bottom: 8px !important;
 
-  code[class*="language-"] {
-    padding-top: 3px;
-    background: rgb(40, 44, 52);
-    font-size: 15px !important;
+  .hljs {
+    font-family: 'Inconsolata', monospace;
+    font-size: 15px;
+    line-height: 18px;
+    padding: 0;
+    background: none;
   }
 }
 
 .LineNumberContainer {
-  margin-top: 3px;
+  font-family: 'Inconsolata', monospace;
   margin-right: 30px;
+  color: #999;
 }
 
 .LineNumber {
   opacity: 0.6;
-  line-height: 1.5;
+  line-height: 18px;
   font-size: 15px;
 }

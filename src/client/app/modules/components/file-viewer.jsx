@@ -2,6 +2,8 @@ import React from 'react'
 import _ from 'underscore'
 import {connect} from 'react-redux'
 import {toggleCodeView, updateFileUrl} from 'reducers/ui-filters'
+import 'whatwg-fetch';
+import {CodeView} from 'components/code-view'
 
 export const CloseButton = ({handleToggle}) => {
   return (
@@ -17,14 +19,32 @@ export class FileViewer extends React.Component {
   constructor(props) {
     super(props);
     this.handleToggle = this.handleToggle.bind(this);
+    this.state = {
+      fileContent: ''
+    };
+  }
+
+  loadFile() {
+    fetch(`/api/file?f=${this.props.fileUrl}`)
+      .then((response) => {
+        console.log(response);
+        return response.text();
+      })
+      .then((response) => {
+        this.setState({fileContent: response})
+      })
   }
 
   componentDidMount() {
-    Prism.fileHighlight(true)
+    this.loadFile();
   }
 
   componentDidUpdate() {
-    Prism.fileHighlight(true)
+    if (this.state.fileContent) {
+      hljs.highlightBlock(this.code);
+      return;
+    }
+    this.loadFile();
   }
 
   handleToggle(e) {
@@ -37,7 +57,14 @@ export class FileViewer extends React.Component {
     return (
       <div className="FullView">
         <CloseButton handleToggle={this.handleToggle}/>
-        { fileUrl? (<pre className="line-numbers" data-src={'api/file?f=' + fileUrl}></pre>) : null }
+        {
+          this.state.fileContent ?
+            (<CodeView
+                content={this.state.fileContent}
+                length={(this.state.fileContent.match(/\n/g) || []).length}
+                start={1}
+              />) : 'Loading ja'
+        }
       </div>
     )
   }

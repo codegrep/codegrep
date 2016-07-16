@@ -6,51 +6,13 @@ import {
   updateLocation,
   updateResults,
 } from 'reducers/search'
+import {CodeView} from 'components/code-view';
 import {
   updateFileUrl,
   toggleCodeView
 } from 'reducers/ui-filters'
 import {resultsFromLocationSelector} from 'selectors/results';
 import 'whatwg-fetch';
-
-export const LineNumbers = ({start, length}) => {
-  return (
-    <div className="LineNumberContainer">
-        {_.range(start, start+length).map((number) => (
-          <div key={number} className="LineNumber">{number}</div>
-        ))}
-    </div>
-  )
-}
-
-export class CodeSnippet extends React.Component {
-  componentDidMount() {
-    Prism.highlightElement(this.code)
-  }
-
-  componentDidUpdate() {
-    Prism.highlightElement(this.code)
-  }
-
-  render() {
-    var {result, openFile} = this.props;
-    var {file, lno, above_lines, the_line, below_lines} = result;
-    var code = above_lines.concat(the_line, below_lines);
-    return (
-      <div className="SnippetContainer">
-        <a className="SnippetLink" onClick={() => {openFile(file)}}>{file}</a>
-        <pre className="line-number Snippet-code">
-          <LineNumbers start={Math.max(lno-3, 1)} length={code.length}/>
-          <code className="language-javascript" ref={(ref) => this.code = ref}>
-            {
-              code.join('\n')
-            }
-          </code>
-        </pre>
-      </div>
-    )
-  }
-}
 
 export class SearchForm extends React.Component {
   constructor(props) {
@@ -107,9 +69,19 @@ export class SearchForm extends React.Component {
           </div>
           <div className="Results">
             {
-              results.map((result, i) => (
-                <CodeSnippet key={i} result={result} openFile={this.openFile}/>
-              ))
+              results.map((result, i) => {
+                var {file, lno, above_lines, the_line, below_lines} = result;
+                var code = above_lines.concat(the_line, below_lines);
+                return (
+                  <CodeView
+                    key={i}
+                    filePath={file}
+                    content={code.join('\n')}
+                    length={code.length}
+                    start={lno}
+                    openFile={this.openFile}/>
+                );
+              })
             }
           </div>
         </div>
