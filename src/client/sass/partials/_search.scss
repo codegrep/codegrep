@@ -1,8 +1,17 @@
 .SearchForm {
   flex: 2;
   min-width: 400px;
-  padding: 32px;
+  padding: 24px;
   color: #ddd;
+  height: 100%;
+  overflow: scroll;
+  box-sizing: border-box;
+}
+
+.Slogan {
+  margin-top: 13px;
+  margin-right: 16px;
+  font-weight: 500;
 }
 
 .FormContainer {
@@ -12,10 +21,9 @@
   input {
     font-size: 14px;
     flex: 1;
-    padding: 16px;
-    margin-top: 16px;
+    padding: 12px;
     border: none;
-    border: 1px solid #181a1f;
+    border: 1px solid #15191c;
     background-color: #1b1d23;
     border-radius: 3px;
     color: #ddd;
@@ -27,17 +35,41 @@
 }
 
 .Summary {
-  margin-bottom: 16px;
+  width: 100%;
+  border-top: 1px solid #3c424e;
+  margin: 36px 0 24px;
+
+  span {
+    background-color: #21252b;
+    padding-right: 10px;
+    line-height: 0px;
+
+    &::before {
+      content: '';
+      padding: 0px 10px;
+      background-color: #3c424e;
+      border-radius: 50%;
+      margin: 3px 5px 3px 0;
+    }
+  }
+
   code {
     font-family: monospace !important;
     color: #f5da55;
     font-weight: 500;
+    padding: 0;
   }
 }
 
+.SnippetContainer {
+  margin-bottom: 24px;
+}
+
 .SnippetLink {
+  display: block;
   color: #E19BF7;
   font-family: monospace;
+  margin-bottom: 8px;
 }
 
 .Snippet-code {

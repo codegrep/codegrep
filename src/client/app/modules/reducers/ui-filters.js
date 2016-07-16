@@ -9,7 +9,7 @@ export const toggleCodeView = (value) => {
 const getDefaultState = () => ({
   views: {
     search: true,
-    full: true,
+    full: false,
   }
 })
 

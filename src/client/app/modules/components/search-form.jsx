@@ -7,81 +7,69 @@ import {
   updateResults,
 } from 'reducers/search'
 import {resultsFromLocationSelector} from 'selectors/results';
-
+import 'whatwg-fetch';
 
 export const CodeSnippet = ({
   result,
   compact = false
 }) => {
-  var {path, lno, context_before, line, context_after, bound} = result;
+  var {file, lno, above_lines, the_line, below_lines} = result;
+  var code = above_lines.concat(the_line, below_lines).join('\n');
+  var highlightedCode = Prism.highlight(code, Prism.languages.javascript);
+
   return (
     <div className="SnippetContainer">
-      <a href={path} className="SnippetLink">{path}</a>
+      <a href={file} className="SnippetLink">{file}</a>
       <pre className="line-numbers Snippet-code" data-start={lno-3} data-line={lno}>
-        <code className="language-python">
-          {
-            context_before.concat(line, context_after).join('\n')
-          }
-        </code>
+        <code className="language-javascript" dangerouslySetInnerHTML={{__html: highlightedCode}}></code>
       </pre>
     </div>
   )
 }
-
-const FAKE_RESULTS =  [
-   {
-     "path": "web/lib/a/model/wanted_answer/_wanted_answer.py",
-     "lno": 82,
-     "context_before": [
-       "    args = (a.network.current_nid(), qid, answerer_uid, from_actor_id)",
-       "    '''",
-       "            from_actor_id = %s"
-     ],
-     "context_after": [
-       "    return r['creation_time'] if r else None",
-       "",
-       ""
-     ],
-     "bounds": [
-       8,
-       18
-     ],
-     "line": "    r = a.db.query_single(sql, args)"
-   },
-]
 
 export class SearchForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleSearchChange = this.handleSearchChange.bind(this)
     this.handleLocationChange = this.handleLocationChange.bind(this)
+    this.debounceUpdateSearch = _.debounce(this.updateSearch, 200);
   }
 
   handleSearchChange(e) {
   	this.props.updateSearchString(e.target.value);
+    this.debounceUpdateSearch(e.target.value, this.props.location);
   }
 
   handleLocationChange(e) {
     this.props.updateLocation(e.target.value);
+    this.debounceUpdateSearch(this.props.searchString, e.target.value);
   }
 
-  componentDidMount() {
-    // populate with fake results
-    this.props.updateResults(FAKE_RESULTS);
+  updateSearch(searchString, location) {
+    fetch(`/api/search?q=${searchString}&f=${location}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        this.props.updateResults(response)
+      })
   }
 
   render() {
-    var {searchString, location, results} = this.props;
+    var {searchString, location, results, full} = this.props;
+    console.log(results);
     return (
       <div className="SearchForm">
-        Find code anywhere!
         <div className="FormContainer">
-          <input className="FormInput" type="text" value={searchString} onChange={this.handleSearchChange} placeholder="Find files containing these words"/>
+          { full? null : <div className="Slogan">Find text</div> }
+          <input className="FormInput" type="text" value={searchString} onChange={this.handleSearchChange} placeholder="Search String"/>
           <input className="FormInput" type="text" value={location} onChange={this.handleLocationChange} placeholder="File directory"/>
         </div>
         <div className="ResultsContainer">
           <div className="Summary">
-            {results.length} results found for string <code>{`'${searchString}'`}</code> in  <code>{`'${location}'`}</code>
+            <span>
+              {results.length} results found for string <code>{`'${searchString}'`}</code> in  <code>{`'${location}'`}</code>
+            </span>
           </div>
           <div className="Results">
             {
@@ -100,7 +88,8 @@ export const ConnectedSearchForm = connect(
   (state) => ({
     searchString: state.search.form.searchString,
     location: state.search.form.location,
-    results: state.search.results//resultsFromLocationSelector(state)
+    results: state.search.results,
+    full: state.uiFilters.views.full,
   }),
   {
     updateSearchString: updateSearchString,
