@@ -25,14 +25,20 @@ coverage
 .lock-wscript
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
-src/client/public
+src/client/public/
 
 # Dependency directories
-node_modules
-jspm_packages
+node_modules/
+jspm_packages/
 
 # Optional npm cache directory
 .npm
 
 # Optional REPL history
 .node_repl_history
+
+# cache
+.sass-cache/
+
+# compiled stuff
+src/client/stylesheets/
