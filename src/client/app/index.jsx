@@ -5,6 +5,8 @@ import { createStore } from 'redux'
 import { App } from 'components/app'
 import searchApp from 'reducers'
 
+//import '../scss'
+
 let store = createStore(searchApp);
 
 class Container extends React.Component {

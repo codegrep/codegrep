@@ -72,6 +72,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	//import '../scss'
+
 	var store = (0, _redux.createStore)(_reducers2.default);
 
 	var Container = function (_React$Component) {
@@ -22904,71 +22906,43 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var CodeSnippet = exports.CodeSnippet = function CodeSnippet(_ref) {
-	  var fullURL = _ref.fullURL;
-	  var lines = _ref.lines;
-	  var lineNumber = _ref.lineNumber;
+	  var result = _ref.result;
 	  var _ref$compact = _ref.compact;
 	  var compact = _ref$compact === undefined ? false : _ref$compact;
+	  var path = result.path;
+	  var lno = result.lno;
+	  var context_before = result.context_before;
+	  var line = result.line;
+	  var context_after = result.context_after;
+	  var bound = result.bound;
 
-	  var length = compact ? 1 : 6;
-	  var tempStyle = {
-	    display: "flex",
-	    width: "100px",
-	    justifyContent: "space-between",
-	    marginBottom: "10px"
-	  };
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'SnippetContainer' },
 	    _react2.default.createElement(
 	      'a',
-	      { href: fullURL, className: 'SnippetLink' },
-	      fullURL
+	      { href: path, className: 'SnippetLink' },
+	      path
 	    ),
-	    _react2.default.createElement('br', null),
 	    _react2.default.createElement(
-	      'div',
-	      { className: 'Snippet', style: tempStyle },
+	      'pre',
+	      { className: 'line-numbers Snippet-code', 'data-start': lno },
 	      _react2.default.createElement(
-	        'div',
-	        { className: 'LineNumberContainer' },
-	        _underscore2.default.range(lineNumber, lineNumber + length).map(function (number) {
-	          return _react2.default.createElement(
-	            'div',
-	            { key: number, className: 'LineNumber' },
-	            number,
-	            _react2.default.createElement('br', null)
-	          );
-	        })
-	      ),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'Code' },
-	        _underscore2.default.first(lines, length).map(function (line, i) {
-	          return _react2.default.createElement(
-	            'div',
-	            { key: i, className: 'Code' },
-	            line,
-	            _react2.default.createElement('br', null)
-	          );
-	        })
+	        'code',
+	        { className: 'language-python' },
+	        context_before.concat(line, context_after).join('\n')
 	      )
 	    )
 	  );
 	};
 
 	var FAKE_RESULTS = [{
-	  lines: ['gu', 'is', 'so', 'sleepy', 'ja', 'Zzzzzz'],
-	  lineNumber: 84,
-	  location: 'San Francisco'
-	}, {
-	  lines: ['noo', 'eyes', 'gu', 'are', 'closing', 'Zzzzzz'],
-	  lineNumber: 120,
-	  location: 'San Diago'
-	}, {
-	  lines: ['thats', 'a', 'rip', 'perinos', 'bobo', 'zero'],
-	  lineNumber: 1,
-	  location: 'Indiana'
+	  "path": "web/lib/a/model/wanted_answer/_wanted_answer.py",
+	  "lno": 82,
+	  "context_before": ["    args = (a.network.current_nid(), qid, answerer_uid, from_actor_id)", "    '''", "            from_actor_id = %s"],
+	  "context_after": ["    return r['creation_time'] if r else None", "", ""],
+	  "bounds": [8, 18],
+	  "line": "    r = a.db.query_single(sql, args)"
 	}];
 
 	var SearchForm = exports.SearchForm = function (_React$Component) {
@@ -23008,29 +22982,34 @@
 	      var location = _props.location;
 	      var results = _props.results;
 
+	      console.log(results);
 	      return _react2.default.createElement(
 	        'div',
-	        null,
-	        'Codegrep!',
-	        _react2.default.createElement('br', null),
-	        _react2.default.createElement('input', { type: 'text', value: searchString, onChange: this.handleSearchChange, placeholder: 'DISABLED JA' }),
-	        _react2.default.createElement('br', null),
-	        _react2.default.createElement('input', { type: 'text', value: location, onChange: this.handleLocationChange, placeholder: 'Location' }),
-	        _react2.default.createElement('br', null),
+	        { className: 'SearchForm' },
+	        'Find code anywhere!',
 	        _react2.default.createElement(
 	          'div',
-	          null,
-	          'Searching for everything in ',
-	          location,
-	          _react2.default.createElement('br', null),
+	          { className: 'FormContainer' },
+	          _react2.default.createElement('input', { className: 'FormInput', type: 'text', value: searchString, onChange: this.handleSearchChange, placeholder: 'Find files containing these words' }),
+	          _react2.default.createElement('input', { className: 'FormInput', type: 'text', value: location, onChange: this.handleLocationChange, placeholder: 'File directory' })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'ResultsContainer' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'resultsContainer' },
+	            { className: 'Summary' },
 	            results.length,
-	            ' results',
-	            _react2.default.createElement('br', null),
+	            ' results found for string ',
+	            '\'' + searchString + '\'',
+	            ' in  ',
+	            '\'' + location + '\''
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'Results' },
 	            results.map(function (result, i) {
-	              return _react2.default.createElement(CodeSnippet, { key: i, fullURL: result.location, lines: result.lines, lineNumber: result.lineNumber });
+	              return _react2.default.createElement(CodeSnippet, { key: i, result: result });
 	            })
 	          )
 	        )
@@ -23045,7 +23024,7 @@
 	  return {
 	    searchString: state.form.searchString,
 	    location: state.form.location,
-	    results: (0, _results.resultsFromLocationSelector)(state)
+	    results: state.results //resultsFromLocationSelector(state)
 	  };
 	}, {
 	  updateSearchString: _reducers.updateSearchString,

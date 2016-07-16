@@ -1,0 +1,48 @@
+.SearchForm {
+  flex: 1;
+  min-width: 400px;
+  padding: 32px;
+  color: #ddd;
+}
+
+.FormContainer {
+  display: flex;
+  margin-bottom: 24px;
+
+  input {
+    font-size: 14px;
+    flex: 1;
+    padding: 16px;
+    margin-top: 16px;
+    border: none;
+    border: 1px solid #181a1f;
+    background-color: #1b1d23;
+    border-radius: 3px;
+    color: #ddd;
+  }
+
+  input + input {
+    margin-left: 8px;
+  }
+}
+
+.Summary {
+  margin-bottom: 16px;
+}
+
+.SnippetLink {
+  color: #E19BF7;
+  font-family: monospace;
+}
+
+.Snippet-code {
+  background: rgb(40, 44, 52) !important;
+  border: 1px solid #181a1f;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+
+  code[class*="language-"] {
+    padding-top: 3px;
+    background: rgb(40, 44, 52);
+  }
+}
