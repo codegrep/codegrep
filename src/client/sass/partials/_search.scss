@@ -63,6 +63,7 @@
 
 .SnippetContainer {
   margin-bottom: 24px;
+  overflow-x: hidden;
 
   pre {
     display: flex;
@@ -87,6 +88,7 @@
   code[class*="language-"] {
     padding-top: 3px;
     background: rgb(40, 44, 52);
+    font-size: 13px !important;
   }
 }
 
@@ -97,5 +99,6 @@
 
 .LineNumber {
   opacity: 0.6;
-  line-height: 1.5;
+  line-height: 19px;
+  font-size: 13px;
 }

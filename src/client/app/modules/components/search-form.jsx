@@ -24,6 +24,10 @@ export const LineNumbers = ({start, length}) => {
 }
 
 export class CodeSnippet extends React.Component {
+  componentDidMount() {
+    Prism.highlightElement(this.code)
+  }
+
   componentDidUpdate() {
     Prism.highlightElement(this.code)
   }
@@ -37,7 +41,7 @@ export class CodeSnippet extends React.Component {
         <a className="SnippetLink" onClick={() => {openFile(file)}}>{file}</a>
         <pre className="line-number Snippet-code">
           <LineNumbers start={Math.max(lno-3, 1)} length={code.length}/>
-        <code className="language-javascript" ref={(ref) => this.code = ref}>
+          <code className="language-javascript" ref={(ref) => this.code = ref}>
             {
               code.join('\n')
             }
