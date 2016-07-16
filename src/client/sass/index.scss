@@ -6,13 +6,60 @@
 @import "compass/reset";
 
 @import 'partials/search';
-@import 'partials/snippet';
+@import 'partials/full-view';
 
 html {
   font-family: "Helvetica Neue", sans-serif;
-  background-color: #282c34;
+  background-color: #21252b;
 }
 
-input {
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+button {
+  background: none;
+  border: 0;
+  color: inherit;
+  /* cursor: default; */
+  font: inherit;
+  line-height: normal;
+  overflow: visible;
+  padding: 0;
+  -webkit-appearance: button; /* for input */
+  -webkit-user-select: none; /* for button */
+     -moz-user-select: none;
+      -ms-user-select: none;
   outline: none;
+}
+
+.App {
+  display: flex;
+}
+
+.TogglerContainer {
+  font-family: monospace;
+  position: fixed;
+  display: flex;
+  right: 32px;
+  top: 16px;
+  max-width: 100px;
+
+}
+
+.Toggler {
+  flex: 1;
+  padding: 8px 16px;
+  background-color: #282c34;
+  color: #ddd;
+  cursor: pointer;
+  margin-left: 1px;
+  border-radius: 3px;
+
+
+  &.is-active {
+    background-color: #2b99ce;
+    &:hover {
+      background-color: lighten(#2b99ce, 6);
+    }
+  }
 }

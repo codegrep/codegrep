@@ -1,0 +1,192 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* line 5, ../../../../.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* line 22, ../../../../.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1;
+}
+
+/* line 24, ../../../../.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 26, ../../../../.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 28, ../../../../.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 30, ../../../../.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 103, ../../../../.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 32, ../../../../.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 116, ../../../../.rvm/rubies/ruby-2.1.1/lib/ruby/gems/2.1.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block;
+}
+
+/* line 1, ../sass/partials/_search.scss */
+.SearchForm {
+  flex: 2;
+  min-width: 400px;
+  padding: 32px;
+  color: #ddd;
+}
+
+/* line 8, ../sass/partials/_search.scss */
+.FormContainer {
+  display: flex;
+  margin-bottom: 24px;
+}
+/* line 12, ../sass/partials/_search.scss */
+.FormContainer input {
+  font-size: 14px;
+  flex: 1;
+  padding: 16px;
+  margin-top: 16px;
+  border: none;
+  border: 1px solid #181a1f;
+  background-color: #1b1d23;
+  border-radius: 3px;
+  color: #ddd;
+}
+/* line 24, ../sass/partials/_search.scss */
+.FormContainer input + input {
+  margin-left: 8px;
+}
+
+/* line 29, ../sass/partials/_search.scss */
+.Summary {
+  margin-bottom: 16px;
+}
+
+/* line 33, ../sass/partials/_search.scss */
+.SnippetLink {
+  color: #E19BF7;
+  font-family: monospace;
+}
+
+/* line 38, ../sass/partials/_search.scss */
+.Snippet-code {
+  background: #282c34 !important;
+  border: 1px solid #181a1f;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  overflow-y: hidden !important;
+}
+/* line 45, ../sass/partials/_search.scss */
+.Snippet-code code[class*="language-"] {
+  padding-top: 3px;
+  background: #282c34;
+}
+
+/* line 1, ../sass/partials/_full-view.scss */
+.FullView {
+  background-color: #1b1d23;
+  flex: 4;
+  height: 100%;
+}
+
+/* line 11, ../sass/index.scss */
+html {
+  font-family: "Helvetica Neue", sans-serif;
+  background-color: #21252b;
+}
+
+/* line 16, ../sass/index.scss */
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+button {
+  background: none;
+  border: 0;
+  color: inherit;
+  /* cursor: default; */
+  font: inherit;
+  line-height: normal;
+  overflow: visible;
+  padding: 0;
+  -webkit-appearance: button;
+  /* for input */
+  -webkit-user-select: none;
+  /* for button */
+  -moz-user-select: none;
+  -ms-user-select: none;
+  outline: none;
+}
+
+/* line 35, ../sass/index.scss */
+.App {
+  display: flex;
+}
+
+/* line 39, ../sass/index.scss */
+.TogglerContainer {
+  font-family: monospace;
+  position: fixed;
+  display: flex;
+  right: 32px;
+  top: 16px;
+  max-width: 100px;
+}
+
+/* line 49, ../sass/index.scss */
+.Toggler {
+  flex: 1;
+  padding: 8px 16px;
+  background-color: #282c34;
+  color: #ddd;
+  cursor: pointer;
+  margin-left: 1px;
+  border-radius: 3px;
+}
+/* line 59, ../sass/index.scss */
+.Toggler.is-active {
+  background-color: #2b99ce;
+}
+/* line 61, ../sass/index.scss */
+.Toggler.is-active:hover {
+  background-color: #40a6d7;
+}

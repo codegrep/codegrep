@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import { App } from 'components/app'
+import { ConnectedApp } from 'components/app'
 import searchApp from 'reducers'
 
 //import '../scss'
@@ -13,7 +13,7 @@ class Container extends React.Component {
   render () {
     return (
       <Provider store={store}>
-        <App />
+        <ConnectedApp />
       </Provider>
     )
   }

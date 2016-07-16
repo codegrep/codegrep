@@ -1,5 +1,5 @@
 .SearchForm {
-  flex: 1;
+  flex: 2;
   min-width: 400px;
   padding: 32px;
   color: #ddd;
@@ -40,6 +40,7 @@
   border: 1px solid #181a1f;
   padding-top: 8px !important;
   padding-bottom: 8px !important;
+  overflow-y: hidden !important;
 
   code[class*="language-"] {
     padding-top: 3px;

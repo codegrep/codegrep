@@ -5,7 +5,7 @@ import {
   updateSearchString,
   updateLocation,
   updateResults,
-} from 'reducers'
+} from 'reducers/search'
 import {resultsFromLocationSelector} from 'selectors/results';
 
 
@@ -17,7 +17,7 @@ export const CodeSnippet = ({
   return (
     <div className="SnippetContainer">
       <a href={path} className="SnippetLink">{path}</a>
-      <pre className="line-numbers Snippet-code" data-start={lno}>
+      <pre className="line-numbers Snippet-code" data-start={lno-3} data-line={lno}>
         <code className="language-python">
           {
             context_before.concat(line, context_after).join('\n')
@@ -72,7 +72,6 @@ export class SearchForm extends React.Component {
 
   render() {
     var {searchString, location, results} = this.props;
-    console.log(results);
     return (
       <div className="SearchForm">
         Find code anywhere!
@@ -99,9 +98,9 @@ export class SearchForm extends React.Component {
 
 export const ConnectedSearchForm = connect(
   (state) => ({
-    searchString: state.form.searchString,
-    location: state.form.location,
-    results: state.results//resultsFromLocationSelector(state)
+    searchString: state.search.form.searchString,
+    location: state.search.form.location,
+    results: state.search.results//resultsFromLocationSelector(state)
   }),
   {
     updateSearchString: updateSearchString,

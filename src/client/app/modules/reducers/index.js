@@ -1,53 +1,10 @@
-export const updateSearchString = (searchString) => {
-  return {
-    type: 'UPDATE_SEARCH_FORM',
-    form: {searchString}
-  }
-}
+import { combineReducers } from 'redux'
+import search from 'reducers/search'
+import uiFilters from 'reducers/ui-filters'
 
-export const updateLocation = (location) => {
-  return {
-    type: 'UPDATE_SEARCH_FORM',
-    form: {location}
-  }
-}
-
-export const updateResults = (results) => {
-  return {
-    type: 'UPDATE_RESULTS',
-    results
-  }
-}
-
-const getDefaultState = () => ({
-  results: [],
-  form: {
-    searchString: '',
-    location: ''
-  }
+const todoApp = combineReducers({
+  search,
+  uiFilters
 })
 
-export default (state, action) => {
-  if (!state) {
-    state = getDefaultState();
-  }
-  switch(action.type) {
-    case 'RESET_STATE':
-      return getDefaultState();
-    case 'UPDATE_RESULTS':
-      return {
-        ...state,
-        results: action.results
-      }
-    case 'UPDATE_SEARCH_FORM':
-      return {
-        ...state,
-        form: {
-          ...state.form,
-          ...action.form,
-        }
-      }
-    default:
-      return state;
-  }
-}
+export default todoApp
