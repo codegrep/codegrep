@@ -14,14 +14,15 @@ export const CodeSnippet = ({
   compact = false
 }) => {
   var {file, lno, above_lines, the_line, below_lines} = result;
-  var code = above_lines.concat(the_line, below_lines).join('\n');
-  var highlightedCode = Prism.highlight(code, Prism.languages.javascript);
-
   return (
     <div className="SnippetContainer">
       <a href={file} className="SnippetLink">{file}</a>
       <pre className="line-numbers Snippet-code" data-start={lno-3} data-line={lno}>
-        <code className="language-javascript" dangerouslySetInnerHTML={{__html: highlightedCode}}></code>
+        <code className="language-javascript">
+          {
+            above_lines.concat(the_line, below_lines).join('\n')
+          }
+        </code>
       </pre>
     </div>
   )
@@ -55,9 +56,12 @@ export class SearchForm extends React.Component {
       })
   }
 
+  componentDidUpdate() {
+    Prism.highlightAll()
+  }
+
   render() {
     var {searchString, location, results, full} = this.props;
-    console.log(results);
     return (
       <div className="SearchForm">
         <div className="FormContainer">
