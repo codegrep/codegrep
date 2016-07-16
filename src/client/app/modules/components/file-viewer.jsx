@@ -35,6 +35,7 @@ export class FileViewer extends React.Component {
 
   render() {
     var {fileUrl, toggleCodeView, updateFileUrl} = this.props
+    console.log("RERENDER?");
     return (
       <div className="FullView">
         <CloseButton handleToggle={this.handleToggle}/>

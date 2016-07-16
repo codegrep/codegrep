@@ -23,25 +23,29 @@ export const LineNumbers = ({start, length}) => {
   )
 }
 
-export const CodeSnippet = ({
-  result,
-  openFile,
-}) => {
-  var {file, lno, above_lines, the_line, below_lines} = result;
-  var code = above_lines.concat(the_line, below_lines);
-  return (
-    <div className="SnippetContainer">
-      <a className="SnippetLink" onClick={() => {openFile(file)}}>{file}</a>
-      <pre className="line-number Snippet-code">
-        <LineNumbers start={Math.max(lno-3, 1)} length={code.length}/>
-        <code className="language-javascript">
-          {
-            code.join('\n')
-          }
-        </code>
-      </pre>
-    </div>
-  )
+export class CodeSnippet extends React.Component {
+  componentDidUpdate() {
+    Prism.highlightElement(this.code)
+  }
+
+  render() {
+    var {result, openFile} = this.props;
+    var {file, lno, above_lines, the_line, below_lines} = result;
+    var code = above_lines.concat(the_line, below_lines);
+    return (
+      <div className="SnippetContainer">
+        <a className="SnippetLink" onClick={() => {openFile(file)}}>{file}</a>
+        <pre className="line-number Snippet-code">
+          <LineNumbers start={Math.max(lno-3, 1)} length={code.length}/>
+        <code className="language-javascript" ref={(ref) => this.code = ref}>
+            {
+              code.join('\n')
+            }
+          </code>
+        </pre>
+      </div>
+    )
+  }
 }
 
 export class SearchForm extends React.Component {
@@ -76,10 +80,6 @@ export class SearchForm extends React.Component {
       .then((response) => {
         this.props.updateResults(response)
       })
-  }
-
-  componentDidUpdate() {
-    Prism.highlightAll()
   }
 
   render() {
