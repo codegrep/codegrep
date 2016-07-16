@@ -1,14 +1,17 @@
+'use strict';
+
 const koa = require('koa');
 
 const mount = require('koa-mount');
 const route = require('koa-route');
 const send = require('koa-send');
-const static = require('koa-static');
+const serve = require('koa-static');
 
 const app = koa();
 const exec = require('child-process-promise').exec;
+const Reader = require('line-by-line');
 
-// search index location
+// searches index location
 process.env.CODEGREP_PORT = process.env.CODEGREP_PORT || 3000;
 process.env.CSEARCHINDEX = process.env.CSEARCHINDEX || '.searchindex';
 
@@ -18,14 +21,65 @@ app.use(route.get('/api/search', function *() {
   if (typeof(q) !== 'string') {
     return this.status = 400;
   }
-  const result = yield exec(`./bin/csearch ${q} | head -n 10`);
-  this.body = result.stdout;
+
+  const flags = [];
+
+  // line number
+  flags.push('-n');
+
+  const f = this.query['f'];
+  if (typeof(f) === 'string') {
+    flags.push(`-f ${f}`);
+  }
+
+  const flag = flags.join(' ');
+  const result = yield exec(`./bin/csearch ${flag} ${q} | head -n 10`);
+
+  // removes last element because it's an empty string
+  const matches = result.stdout.split(/[\r\n]+/).slice(0, -1).map(function (line) {
+    const splitResult = line.split(':', 2);
+    const file = splitResult[0];
+    const lno = parseInt(splitResult[1], 10);
+    return new Promise(function (resolve, reject) {
+      let currentLine = 0;
+
+      const reader = new Reader(file);
+      const aboveLines = [];
+      const belowLines = [];
+      let theLine = '';
+
+      reader.on('error', function (err) {
+        reject(err);
+      });
+      reader.on('line', function(line) {
+        currentLine += 1;
+        if (currentLine < lno && currentLine + 3 >= lno) {
+          aboveLines.push(line);
+        } else if (currentLine == lno) {
+          theLine = line;
+        } else if (currentLine > lno && currentLine - 3 <= lno) {
+          belowLines.push(line);
+        }
+      });
+      reader.on('end', function() {
+        resolve({
+          'file': file,
+          'lno': lno,
+          'above_lines': aboveLines,
+          'below_lines': belowLines,
+          'the_line': theLine,
+        });
+      });
+    });
+  });
+
+  this.body = yield matches;
 }))
 
 // serves static assets
-app.use(mount('/public', static('./public')));
+app.use(mount('/public', serve('./public')));
 
-// catch all by serving static index
+// catches all
 app.use(function *() {
   if (this.path !== '/') {
     return this.redirect('/');
