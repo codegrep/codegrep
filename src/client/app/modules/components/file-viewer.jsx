@@ -27,7 +27,6 @@ export class FileViewer extends React.Component {
   loadFile() {
     fetch(`/api/file?f=${this.props.fileUrl}`)
       .then((response) => {
-        console.log(response);
         return response.text();
       })
       .then((response) => {
@@ -40,10 +39,6 @@ export class FileViewer extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.fileContent) {
-      hljs.highlightBlock(this.code);
-      return;
-    }
     this.loadFile();
   }
 

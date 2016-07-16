@@ -31,7 +31,6 @@ export class ViewToggler extends React.Component {
 
 export const App = ({views, toggleCodeView}) => {
   var {search, full} = views;
-  console.log(views);
   return (
     <div className="App">
       {search || !full? <ConnectedSearchForm/>: null}
