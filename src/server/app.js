@@ -1,6 +1,7 @@
 'use strict';
 
 const koa = require('koa');
+const path = require('path');
 
 const mount = require('koa-mount');
 const route = require('koa-route');
@@ -28,7 +29,7 @@ app.use(route.get('/api/search', function *() {
   flags.push('-n');
 
   const f = this.query['f'];
-  if (typeof(f) === 'string') {
+  if (typeof(f) === 'string' && f !== '') {
     flags.push(`-f ${f}`);
   }
 
@@ -74,7 +75,16 @@ app.use(route.get('/api/search', function *() {
   });
 
   this.body = yield matches;
-}))
+}));
+
+app.use(route.get('/api/file', function *() {
+  const f = this.query['f'];
+  if (typeof(f) !== 'string') {
+    return this.status = 400;
+  }
+  const filePath = path.relative('.', f);
+  yield send(this, filePath);
+}));
 
 // serves static assets
 app.use(mount('/public', serve('./public')));
