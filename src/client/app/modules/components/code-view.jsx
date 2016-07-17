@@ -21,12 +21,20 @@ export const LineNumbers = ({start, length, lno}) => {
   )
 }
 
-export const CodeInnerView = ({content, refHandler}) => {
-  return (
-    <code ref={refHandler}>
-      { content? content : 'Loading ja' }
-    </code>
-  );
+export class CodeInnerView extends React.Component {
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.props.content !== nextProps.content;
+  }
+
+  render() {
+    var {content, refHandler} = this.props;
+    return (
+      <code ref={refHandler}>
+        { content ? content : 'Loading ja' }
+      </code>
+    );
+  }
 }
 
 export class CodeView extends React.Component {
@@ -46,7 +54,10 @@ export class CodeView extends React.Component {
       return;
     }
     if (this.state.content) {
-      hljs.highlightBlock(this.code);
+      if (!this.isHighlighted) {
+        hljs.highlightBlock(this.code);
+        this.isHighlighted = true;
+      }
       if (this.props.setScroll) {
         this.props.setScroll();
       }
@@ -96,7 +107,11 @@ export class CodeView extends React.Component {
         }
         <pre className="Snippet-code">
           {length? <LineNumbers start={start} length={length} lno={lno}/> : null}
-          <CodeInnerView key={filePath} content={content || fetched} refHandler={this.refHandler}/>
+          <CodeInnerView
+            key={filePath}
+            content={content || fetched}
+            refHandler={this.refHandler}
+          />
         </pre>
       </div>
     )
