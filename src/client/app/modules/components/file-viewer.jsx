@@ -3,6 +3,10 @@ import _ from 'underscore'
 import {connect} from 'react-redux'
 import 'whatwg-fetch';
 import {ConnectedCodeView} from 'components/code-view'
+import {
+  toggleCodeView,
+  updateFileUrl
+} from 'reducers/ui-filters'
 
 export const CloseButton = ({handleToggle}) => {
   return (
@@ -27,14 +31,10 @@ export class FileViewer extends React.Component {
     this.props.updateFileUrl(null);
   }
 
-  componentWillUpdate(nextProps) {
-
-  }
-
   scrollToFocusedLine() {
     var target = document.querySelector('.LineNumber--focused');
     if (this.parentView) {
-      this.parentView.scrollTop = (this.props.line-1)*18 + 16 - screen.height/4;
+      this.parentView.scrollTop = (this.props.line-1)*20 + 16 - screen.height/4;
     }
   }
 
@@ -58,5 +58,9 @@ export const ConnectedFileViewer = connect(
   (state) => ({
     currentFilePath: state.uiFilters.fileUrl,
     line: state.uiFilters.line,
-  })
+  }),
+  {
+    updateFileUrl: updateFileUrl,
+    toggleCodeView: toggleCodeView
+  }
 )(FileViewer);

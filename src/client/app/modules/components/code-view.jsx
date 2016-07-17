@@ -15,7 +15,9 @@ export const LineNumbers = ({start, length, focus}) => {
             var classes = classnames('LineNumber', {
               'LineNumber--focused': focus == number
             });
-            return <div key={number} className={classes}>{number}</div>
+            return <div key={number} className={classes}>
+                    {number}
+                  </div>
         })}
     </div>
   )
@@ -110,6 +112,7 @@ export class CodeView extends React.Component {
 }
 
 CodeView.propTypes = {
+  children: React.PropTypes.node,
   filePath: React.PropTypes.string,
   content: React.PropTypes.string,
   length: React.PropTypes.number,
