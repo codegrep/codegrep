@@ -11,6 +11,7 @@ const serve = require('koa-static');
 
 const app = koa();
 const exec = require('child-process-promise').exec;
+const shellescape = require('shell-escape');
 const Reader = require('line-by-line');
 const CronJob = require('cron').CronJob;
 const CSEARCHROOT = process.env.CSEARCHROOT || '.';
@@ -21,7 +22,7 @@ process.env.CSEARCHINDEX = process.env.CSEARCHINDEX || '.searchindex';
 
 // update searchindex every hour
 new CronJob('00 00 * * * *', function() {
-  exec('./bin/cindex').then(function () {
+  exec('bin/cindex').then(function () {
     console.log('[spawn] reindexing succeeds at', new Date());
   }, function(err) {
     console.log('[spawn] reindexing fails with error', err);
@@ -35,24 +36,37 @@ app.use(route.get('/api/search', function *() {
     return this.status = 400;
   }
 
-  const flags = [];
+  const args = [];
 
-  // line number
-  flags.push('-n');
+  // search binary
+  args.push('bin/csearch');
 
+  // file
   const f = this.query['f'];
   if (typeof(f) === 'string' && f !== '') {
-    flags.push(`-f ${f}`);
+    args.push('-f')
+    args.push(f);
   }
 
-  const flag = flags.join(' ');
-  const result = yield exec(`./bin/csearch ${flag} ${q} | head -n 10`);
+  // query
+  if (q === '') {
+    // only search by file name
+    args.push('-l')
+    args.push('.');
+  } else {
+    // search also for line number
+    args.push('-n');
+    args.push(q);
+  }
+
+  const cmd = shellescape(args);
+  const result = yield exec(`${cmd} | head -n 10`);
 
   // removes last element because it's an empty string
   const matches = result.stdout.split(/[\r\n]+/).slice(0, -1).map(function (line) {
     const splitResult = line.split(':', 2);
     const file = splitResult[0];
-    const lno = parseInt(splitResult[1], 10);
+    const lno = parseInt(splitResult[1], 10) || 1;
     return new Promise(function (resolve, reject) {
       let currentLine = 0;
 
