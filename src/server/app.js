@@ -12,11 +12,21 @@ const serve = require('koa-static');
 const app = koa();
 const exec = require('child-process-promise').exec;
 const Reader = require('line-by-line');
+const CronJob = require('cron').CronJob;
 const CSEARCHROOT = process.env.CSEARCHROOT || '.';
 
 // searches index location
 process.env.CODEGREP_PORT = process.env.CODEGREP_PORT || 3000;
 process.env.CSEARCHINDEX = process.env.CSEARCHINDEX || '.searchindex';
+
+// update searchindex every hour
+new CronJob('00 00 * * * *', function() {
+  exec('./bin/cindex').then(function () {
+    console.log('[spawn] reindexing succeeds at', new Date());
+  }, function(err) {
+    console.log('[spawn] reindexing fails with error', err);
+  })
+}, null, true);
 
 // apis
 app.use(route.get('/api/search', function *() {
@@ -89,8 +99,8 @@ app.use(route.get('/api/file', function *() {
 
 app.use(route.get('/api/lastupdate', function *() {
   this.body = yield new Promise(function (resolve, reject) {
-    fs.stat(process.env.CSEARCHINDEX, function (error, stats) {
-      if (error) {
+    fs.stat(process.env.CSEARCHINDEX, function (err, stats) {
+      if (err) {
         return reject(error);
       }
       resolve(stats.mtime);
