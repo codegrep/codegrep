@@ -119,7 +119,6 @@ export class CodeView extends React.Component {
 }
 
 CodeView.propTypes = {
-  children: React.PropTypes.node,
   filePath: React.PropTypes.string,
   content: React.PropTypes.string,
   length: React.PropTypes.number,

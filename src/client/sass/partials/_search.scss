@@ -47,20 +47,23 @@
     margin-right: 10px;
 
     button {
-      background: #1b1d23;
+      //background: #1b1d23;
       padding: 10px;
       border: 1px solid #15191c;
       width: 45px;
       color: #aaa;
       font-size: 14px;
       cursor: pointer;
+      font-family: monospace;
+      background-color: #2c3139;
 
       &:hover {
         color: #fff;
       }
 
       &.active {
-        background-color: #2c3139;
+        background-color: #2598B8;
+        color: white;
       }
     }
 
