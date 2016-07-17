@@ -1,6 +1,6 @@
 .SearchForm {
   flex: 2;
-  padding: 16px;
+  padding: 11px 16px;
   color: #ddd;
   height: 100%;
   overflow: scroll;
@@ -9,8 +9,11 @@
 }
 
 .Slogan {
-  margin-top: 10px;
+  margin-top: 4px;
   margin-right: 16px;
+  font-family: 'Lato', 'Open Sans';
+  font-weight: 800;
+  font-size: 24px;
 }
 
 .FormContainer {

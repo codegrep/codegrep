@@ -47,7 +47,7 @@ export class SearchForm extends React.Component {
     return (
       <div className="SearchForm">
         <div className="FormContainer">
-          { full? null : <div className="Slogan">Find anything</div> }
+          { full? null : <div className="Slogan">CodeGrep!</div> }
           <input className="FormInput" type="text" value={searchString} onChange={this.handleSearchChange} placeholder="Search String"/>
           <input className="FormInput" type="text" value={location} onChange={this.handleLocationChange} placeholder="File directory"/>
         </div>

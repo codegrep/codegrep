@@ -35,6 +35,8 @@ button {
 
 .App {
   display: flex;
+  position: relative;
+  overflow: hidden;
 }
 
 .TogglerContainer {
