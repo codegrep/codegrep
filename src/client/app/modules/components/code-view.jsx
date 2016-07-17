@@ -21,6 +21,14 @@ export const LineNumbers = ({start, length, lno}) => {
   )
 }
 
+function getLanguageByPath(path) {
+  var extension = path.split(/\./).pop();
+  if (hljs.getLanguage(extension)) return extension;
+  var fileName = path.split(/\//).pop();
+  if (hljs.getLanguage(fileName)) return fileName;
+  return 'diff';
+}
+
 export class CodeInnerView extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -28,9 +36,10 @@ export class CodeInnerView extends React.Component {
   }
 
   render() {
-    var {content, refHandler} = this.props;
+    var {content, refHandler, filePath} = this.props;
+    var lang = getLanguageByPath(filePath);
     return (
-      <code ref={refHandler}>
+      <code className={ lang ? ('language-'+lang) : ''} ref={refHandler}>
         { content ? content : 'Loading ja' }
       </code>
     );
@@ -109,6 +118,7 @@ export class CodeView extends React.Component {
           {length? <LineNumbers start={start} length={length} lno={lno}/> : null}
           <CodeInnerView
             key={filePath}
+            filePath={filePath}
             content={content || fetched}
             refHandler={this.refHandler}
           />
