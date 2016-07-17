@@ -15,14 +15,13 @@ export class CodeView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      highlighted: false,
       content: ''
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.filePath !== this.props.filePath) {
-      this.state.content = '';
+      this.setState({content: ''})
     }
   }
 
@@ -58,7 +57,7 @@ export class CodeView extends React.Component {
   render() {
     var {filePath, content, length, start=1, openFile} = this.props;
     var fetched = this.state.content;
-    var length = fetched? (fetched.match(/\n/g) || []).length : length;
+    var length = fetched? (fetched.match(/\n/g) || []).length+1 : length;
     return (
       <div className="SnippetContainer">
         {content?
@@ -66,10 +65,10 @@ export class CodeView extends React.Component {
           : null
         }
         <pre className="Snippet-code">
-          {length? <LineNumbers start={start} length={length+1}/> : null}
+          {length? <LineNumbers start={start} length={length}/> : null}
           <code ref={(ref) => this.code = ref}>
             {
-              content || (fetched? fetched: 'Loading ja')
+              content || (fetched.length > 0? fetched: 'Loading ja')
             }
           </code>
         </pre>
