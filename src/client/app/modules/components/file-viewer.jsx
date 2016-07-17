@@ -33,15 +33,13 @@ export class FileViewer extends React.Component {
 
   scrollToFocusedLine() {
     var target = document.querySelector('.LineNumber--focused');
-    if (this.parentView) {
-      this.parentView.scrollTop = (this.props.line-1)*20 + 16 - screen.height/4;
-    }
+    this.parentView.scrollTop = (this.props.line-1)*20 + 16 - screen.height/4;
   }
 
   render() {
     var {currentFilePath, line} = this.props;
     return (
-      <div className="FullView" ref={(ref) => this.parentView = ref}>
+      <div className="FullView" ref={(ref) => this.parentView = this.parentView || ref}>
         <CloseButton handleToggle={this.handleToggle}/>
         <ConnectedCodeView
           key={currentFilePath}
