@@ -7,7 +7,7 @@ import searchApp from 'reducers'
 
 //import '../scss'
 
-let store = createStore(searchApp);
+let store = createStore(searchApp, window.devToolsExtension ? window.devToolsExtension() : f => f);
 
 class Container extends React.Component {
   render () {

@@ -6,7 +6,7 @@ import {
   updateLocation,
   updateResults,
 } from 'reducers/search'
-import {CodeView} from 'components/code-view';
+import {ConnectedCodeView} from 'components/code-view';
 import {
   updateFileUrl,
   toggleCodeView
@@ -19,7 +19,6 @@ export class SearchForm extends React.Component {
     super(props);
     this.handleSearchChange = this.handleSearchChange.bind(this)
     this.handleLocationChange = this.handleLocationChange.bind(this)
-    this.openFile = this.openFile.bind(this)
     this.debounceUpdateSearch = _.debounce(this.updateSearch, 200)
   }
 
@@ -31,11 +30,6 @@ export class SearchForm extends React.Component {
   handleLocationChange(e) {
     this.props.updateLocation(e.target.value);
     this.debounceUpdateSearch(this.props.searchString, e.target.value);
-  }
-
-  openFile(url) {
-    this.props.toggleCodeView(true);
-    this.props.updateFileUrl(url)
   }
 
   updateSearch(searchString, location) {
@@ -73,13 +67,12 @@ export class SearchForm extends React.Component {
                 var {file, lno, above_lines, the_line, below_lines} = result;
                 var code = above_lines.concat(the_line, below_lines);
                 return (
-                  <CodeView
+                  <ConnectedCodeView
                     key={i}
                     filePath={file}
                     content={code.join('\n')}
                     length={code.length}
                     start={lno}
-                    openFile={this.openFile}
                   />
                 );
               })
@@ -102,7 +95,5 @@ export const ConnectedSearchForm = connect(
     updateSearchString: updateSearchString,
     updateLocation: updateLocation,
     updateResults: updateResults,
-    updateFileUrl: updateFileUrl,
-    toggleCodeView: toggleCodeView
   }
 )(SearchForm);

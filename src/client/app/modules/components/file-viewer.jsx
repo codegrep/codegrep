@@ -1,9 +1,8 @@
 import React from 'react'
 import _ from 'underscore'
 import {connect} from 'react-redux'
-import {toggleCodeView, updateFileUrl} from 'reducers/ui-filters'
 import 'whatwg-fetch';
-import {CodeView} from 'components/code-view'
+import {ConnectedCodeView} from 'components/code-view'
 
 export const CloseButton = ({handleToggle}) => {
   return (
@@ -19,6 +18,8 @@ export class FileViewer extends React.Component {
   constructor(props) {
     super(props);
     this.handleToggle = this.handleToggle.bind(this);
+    this.scrollToFocusedLine = this.scrollToFocusedLine.bind(this);
+    this.scrollAmount = 0;
   }
 
   handleToggle(e) {
@@ -26,14 +27,21 @@ export class FileViewer extends React.Component {
     this.props.updateFileUrl(null);
   }
 
+  componentWillUpdate(nextProps) {
+
+  }
+
+  scrollToFocusedLine() {
+    var target = document.querySelector('.LineNumber--focused');
+    this.parentView.scrollTop = (this.props.line-1)*18 + 16 - screen.height/4;
+  }
+
   render() {
-    var {fileUrl, toggleCodeView, updateFileUrl} = this.props
+    var {fileUrl} = this.props
     return (
-      <div className="FullView">
+      <div className="FullView" ref={(ref) => this.parentView = ref}>
         <CloseButton handleToggle={this.handleToggle}/>
-        {
-          fileUrl ? <CodeView filePath={fileUrl}/> : null
-        }
+        <ConnectedCodeView setScroll={this.scrollToFocusedLine}/>
       </div>
     )
   }
@@ -41,10 +49,6 @@ export class FileViewer extends React.Component {
 
 export const ConnectedFileViewer = connect(
   (state) => ({
-    fileUrl: state.uiFilters.fileUrl,
-  }),
-  {
-    toggleCodeView: toggleCodeView,
-    updateFileUrl: updateFileUrl
-  }
+    line: state.uiFilters.line,
+  })
 )(FileViewer);

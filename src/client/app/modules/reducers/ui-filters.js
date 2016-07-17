@@ -2,23 +2,26 @@ export const toggleCodeView = (value) => {
   return {
     type: 'UPDATE_VIEW',
     view: 'full',
+    line: 1,
     value
   }
-}
+};
 
-export const updateFileUrl = (fileUrl) => {
+export const updateFileUrl = (fileUrl, line) => {
   return {
     type: 'UPDATE_FILE_URL',
     fileUrl,
+    line
   }
-}
+};
 
 const getDefaultState = () => ({
   views: {
     search: true,
     full: false,
-    fileUrl: null,
-  }
+  },
+  fileUrl: null,
+  line: null
 })
 
 export default (state, action) => {
@@ -40,6 +43,7 @@ export default (state, action) => {
       return {
         ...state,
         fileUrl: action.fileUrl,
+        line: action.line
       }
     default:
       return state;
