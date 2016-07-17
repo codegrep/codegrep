@@ -1,27 +1,26 @@
 .SearchForm {
   flex: 2;
-  padding: 24px;
+  padding: 16px;
   color: #ddd;
   height: 100%;
   overflow: scroll;
   box-sizing: border-box;
+  border-right: 1px solid #15191c;
 }
 
 .Slogan {
-  margin-top: 13px;
+  margin-top: 10px;
   margin-right: 16px;
-  font-weight: 500;
-  font-size: 18px;
 }
 
 .FormContainer {
   display: flex;
-  margin-bottom: 24px;
 
   input {
-    font-size: 18px;
+    font-size: 14px;
+    font-family: 'Inconsolata', monospace;
     flex: 1;
-    padding: 12px;
+    padding: 10px;
     border: none;
     border: 1px solid #15191c;
     background-color: #1b1d23;
@@ -37,20 +36,12 @@
 .Summary {
   width: 100%;
   border-top: 1px solid #3c424e;
-  margin: 36px 0 24px;
+  margin: 24px 0;
 
   span {
     background-color: #21252b;
     padding-right: 10px;
     line-height: 0px;
-
-    /*&::before {
-      content: '';
-      padding: 0px 10px;
-      background-color: #3c424e;
-      border-radius: 50%;
-      margin: 3px 5px 3px 0;
-    }*/
   }
 
   code {
@@ -59,59 +50,4 @@
     font-weight: 500;
     padding: 0;
   }
-}
-
-.SnippetContainer {
-  margin-bottom: 24px;
-  overflow-x: hidden;
-
-  pre {
-    display: flex;
-    position: relative;
-  }
-}
-
-.SnippetLink {
-  display: block;
-  color: #E19BF7;
-  font-family: monospace;
-  margin-bottom: 8px;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.Snippet-code {
-  background: #2b303b;
-  border: 1px solid #181a1f;
-
-  .hljs {
-    margin: 16px;
-    font-family: 'Inconsolata', monospace;
-    font-size: 15px;
-    line-height: 20px;
-    margin-left: 48px;
-    padding: 0;
-    background: none;
-    z-index: 1;
-  }
-}
-
-.LineNumberContainer {
-  position: absolute;
-  width: 100%;
-  font-family: 'Inconsolata', monospace;
-  margin: 16px 0;
-  padding: 0;
-  color: #999;
-}
-
-.LineNumber {
-  padding-left: 16px;
-  opacity: 0.6;
-  line-height: 20px;
-  font-size: 15px;
-}
-
-.LineNumber--focused {
-  background-color: #138bc3;//#2b303b;
 }

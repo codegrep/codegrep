@@ -13,4 +13,30 @@
     padding-top: 16px;
     margin: 0;
   }
+
+  .SnippetContainer {
+    margin-top: 56px;
+  }
+}
+
+.Header {
+  position: absolute;;
+  top: 0;
+  color: white;
+  width: 100%;
+  padding: 13px 16px 12px;
+  background-color: #21252b;
+  z-index: 500;
+  box-sizing: border-box;
+  display: flex;
+  border-bottom: 1px solid #15191c;
+
+  span {
+    margin: 7px 8px 8px 0;
+    font-size: 13px;
+  }
+
+  .SnippetLink {
+    margin-top: 5px;
+  }
 }

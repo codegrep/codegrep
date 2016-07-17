@@ -12,8 +12,17 @@ export const CloseButton = ({handleToggle}) => {
   return (
     <div className="TogglerContainer">
       <button className='Toggler' onClick={handleToggle}>
-        Close
+        <i className="icon ion-ios-close-empty"/>
       </button>
+    </div>
+  );
+}
+
+export const Header = ({filePath}) => {
+  return (
+    <div className="Header">
+      <span>Viewing File:</span>
+      <a href={filePath} className="SnippetLink">{filePath}</a>
     </div>
   );
 }
@@ -32,7 +41,6 @@ export class FileViewer extends React.Component {
   }
 
   scrollToFocusedLine() {
-    var target = document.querySelector('.LineNumber--focused');
     this.parentView.scrollTop = (this.props.line-1)*20 + 16 - screen.height/4;
   }
 
@@ -41,6 +49,7 @@ export class FileViewer extends React.Component {
     return (
       <div className="FullView" ref={(ref) => this.parentView = this.parentView || ref}>
         <CloseButton handleToggle={this.handleToggle}/>
+        <Header filePath={currentFilePath}/>
         <ConnectedCodeView
           key={currentFilePath}
           lno={line}
@@ -49,7 +58,7 @@ export class FileViewer extends React.Component {
           setScroll={this.scrollToFocusedLine}
         />
       </div>
-    )
+    );
   }
 }
 

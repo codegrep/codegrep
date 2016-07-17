@@ -1,0 +1,56 @@
+.SnippetContainer {
+  margin-bottom: 24px;
+  overflow-x: hidden;
+
+  pre {
+    display: flex;
+    position: relative;
+  }
+}
+
+.SnippetLink {
+  display: block;
+  color: #E19BF7;
+  font-family: 'Inconsolata', monospace;
+  margin-bottom: 8px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.Snippet-code {
+  background: #2b303b;
+  border: 1px solid #181a1f;
+
+  .hljs {
+    margin: 16px;
+    font-family: 'Inconsolata', monospace;
+    font-size: 15px;
+    line-height: 20px;
+    margin-left: 48px;
+    padding: 0;
+    background: none;
+    z-index: 1;
+  }
+}
+
+.LineNumberContainer {
+  position: absolute;
+  width: 100%;
+  font-family: 'Inconsolata', monospace;
+  margin: 16px 0;
+  padding: 0;
+  color: #999;
+}
+
+.LineNumber {
+  padding-left: 16px;
+  opacity: 0.6;
+  line-height: 20px;
+  font-size: 15px;
+}
+
+.LineNumber--focused {
+  background-color: #394352;
+  opacity: 1;
+  color: #eee;
+}

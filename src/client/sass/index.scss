@@ -7,6 +7,7 @@
 
 @import 'partials/search';
 @import 'partials/full-view';
+@import 'partials/code';
 
 html {
   font-family: "Roboto-Light", "Helvetica Neue", sans-serif;
@@ -40,23 +41,26 @@ button {
   font-weight: bold;
   position: fixed;
   display: flex;
-  right: 32px;
-  top: 16px;
+  right: 24px;
+  top: 9px;
   max-width: 100px;
   z-index: 1000;
 }
 
 .Toggler {
   flex: 1;
-  padding: 8px 16px;
-  background-color: #282c34;
+  font-size: 36px;
   color: #ddd;
   cursor: pointer;
   margin-left: 1px;
   border-radius: 3px;
 
-  &:hover {
-    background-color: lighten(#282c34, 6)
+  i {
+    opacity: 0.5;
+  }
+
+  i:hover {
+      opacity: 1;
   }
 
   &.is-active {
