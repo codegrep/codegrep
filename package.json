@@ -4,7 +4,8 @@
   "description": "Codegrep",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "osascript -e 'tell application \"Terminal\" to activate' -e 'tell application \"System Events\" to tell process \"Terminal\" to keystroke \"t\" using command down' -e 'tell application \"Terminal\" to do script \"compass watch\" in selected tab of the front window' -e 'delay 3' -e 'tell application \"System Events\" to tell process \"Terminal\" to keystroke \"t\" using command down' -e 'tell application \"Terminal\" to do script \"./bin/server\" in selected tab of the front window' && ./node_modules/.bin/webpack"
   },
   "authors": [
     "Sorawit Suriyakarn",
