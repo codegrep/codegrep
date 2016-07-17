@@ -7,8 +7,8 @@ import {
   updateFileUrl
 } from 'reducers/ui-filters'
 
-
 export const LineNumbers = ({start, length, lno}) => {
+  start = Math.max(start, 1)
   return (
     <div className="LineNumberContainer">
         {_.range(start, start+length).map((number) => {
@@ -21,19 +21,26 @@ export const LineNumbers = ({start, length, lno}) => {
   )
 }
 
+export const CodeInnerView = ({content, refHandler}) => {
+  return (
+    <code ref={refHandler}>
+      { content? content : 'Loading ja' }
+    </code>
+  );
+}
+
 export class CodeView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       content: '',
     };
-    console.log('uo', this.state.content);
     this.openFile = this.openFile.bind(this);
+    this.refHandler = this.refHandler.bind(this);
   }
 
   refresh() {
     var {content, filePath} = this.props;
-    console.log(content, filePath, !!this.state.content);
     if (content) {
       hljs.highlightBlock(this.code);
       return;
@@ -49,16 +56,11 @@ export class CodeView extends React.Component {
   }
 
   componentDidMount() {
-    console.log('mount');
     this.refresh();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('update');
     this.refresh();
-    /* if (currentFilePath && currentFilePath != this.state.lastFilePath) {
-      this.loadFile(currentFilePath);
-    } */
   }
 
   loadFile(fileUrl) {
@@ -69,9 +71,12 @@ export class CodeView extends React.Component {
       .then((response) => {
         this.setState({
           content: response,
-          /* lastFilePath: fileUrl */
         })
       })
+  }
+
+  refHandler(ref) {
+    this.code = ref;
   }
 
   openFile(url) {
@@ -91,11 +96,7 @@ export class CodeView extends React.Component {
         }
         <pre className="Snippet-code">
           {length? <LineNumbers start={start} length={length} lno={lno}/> : null}
-          <code ref={(ref) => this.code = ref}>
-            {
-              content || (fetched.length > 0? fetched: 'Loading ja')
-            }
-          </code>
+          <CodeInnerView key={filePath} content={content || fetched} refHandler={this.refHandler}/>
         </pre>
       </div>
     )
