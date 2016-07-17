@@ -1,5 +1,7 @@
 .SearchForm {
   @include flex(2);
+  @include display-flex;
+  @include flex-direction(column);
   padding: 11px 16px;
   color: #ddd;
   height: 100%;
@@ -18,6 +20,7 @@
 
 .FormContainer {
   @include display-flex;
+  @include flex(initial);
 
   input {
     font-size: 14px;
@@ -36,7 +39,24 @@
   }
 }
 
+.ResultsContainer {
+  @include flex(1);
+  @include display-flex;
+  @include flex-direction(column);
+  overflow: hidden;
+  position: relative;
+  padding-top: 50px;
+
+  .Results {
+    flex: 1;
+    overflow: scroll;
+  }
+}
+
 .Summary {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   border-top: 1px solid #3c424e;
   margin: 24px 0;
