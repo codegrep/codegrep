@@ -33,7 +33,8 @@ export class SearchForm extends React.Component {
   }
 
   updateSearch(searchString, location) {
-    fetch(`/api/search?q=${searchString}&f=${location}`)
+    const bashSafeSearchString = searchString.replace(/(.{1})/g,"\\$1"); // Insert backslash in front of every character
+    fetch(`/api/search?q=${bashSafeSearchString}&f=${location}`)
       .then((response) => {
         return response.json();
       })
