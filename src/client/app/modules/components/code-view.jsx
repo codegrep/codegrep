@@ -8,16 +8,14 @@ import {
 } from 'reducers/ui-filters'
 
 
-export const LineNumbers = ({start, length, focus}) => {
+export const LineNumbers = ({start, length, lno}) => {
   return (
     <div className="LineNumberContainer">
         {_.range(start, start+length).map((number) => {
             var classes = classnames('LineNumber', {
-              'LineNumber--focused': focus == number
+              'LineNumber--focused': lno == number
             });
-            return <div key={number} className={classes}>
-                    {number}
-                  </div>
+            return <div key={number} className={classes}>{number}</div>
         })}
     </div>
   )
@@ -28,17 +26,10 @@ export class CodeView extends React.Component {
     super(props);
     this.state = {
       content: '',
-      /* lastFilePath: '', */
     };
     console.log('uo', this.state.content);
     this.openFile = this.openFile.bind(this);
   }
-
-  /* componentWillReceiveProps(nextProps) {
-    if (nextProps.filePath !== this.props.currentFilePath) {
-      this.setState({content: ''})
-    }
-  } */
 
   refresh() {
     var {content, filePath} = this.props;
@@ -85,11 +76,11 @@ export class CodeView extends React.Component {
 
   openFile(url) {
     this.props.toggleCodeView(true);
-    this.props.updateFileUrl(url, this.props.start);
+    this.props.updateFileUrl(url, this.props.lno);
   }
 
   render() {
-    var {filePath, content, length, start=1, openFile} = this.props;
+    var {filePath, content, length, start, lno, openFile} = this.props;
     var fetched = this.state.content;
     var length = fetched? (fetched.match(/\n/g) || []).length+1 : length;
     return (
@@ -99,7 +90,7 @@ export class CodeView extends React.Component {
           : null
         }
         <pre className="Snippet-code">
-          {length? <LineNumbers start={start} length={length}/> : null}
+          {length? <LineNumbers start={start} length={length} lno={lno}/> : null}
           <code ref={(ref) => this.code = ref}>
             {
               content || (fetched.length > 0? fetched: 'Loading ja')
@@ -117,6 +108,7 @@ CodeView.propTypes = {
   content: React.PropTypes.string,
   length: React.PropTypes.number,
   start: React.PropTypes.number,
+  lno: React.PropTypes.number,
   updateFileUrl: React.PropTypes.func.isRequired,
   toggleCodeView: React.PropTypes.func.isRequired,
   setScroll: React.PropTypes.func

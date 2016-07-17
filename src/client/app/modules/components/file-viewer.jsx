@@ -39,14 +39,16 @@ export class FileViewer extends React.Component {
   }
 
   render() {
-    var {currentFilePath} = this.props;
+    var {currentFilePath, line} = this.props;
     console.log('gonna render', this.props.currentFilePath);
     return (
       <div className="FullView" ref={(ref) => this.parentView = ref}>
         <CloseButton handleToggle={this.handleToggle}/>
         <ConnectedCodeView
-          key={this.props.currentFilePath}
-          filePath={this.props.currentFilePath}
+          key={currentFilePath}
+          lno={line}
+          start={1}
+          filePath={currentFilePath}
           setScroll={this.scrollToFocusedLine}
         />
       </div>

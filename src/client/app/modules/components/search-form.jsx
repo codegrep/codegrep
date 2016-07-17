@@ -72,7 +72,8 @@ export class SearchForm extends React.Component {
                     filePath={file}
                     content={code.join('\n')}
                     length={code.length}
-                    start={lno}
+                    start={lno-3}
+                    lno={lno}
                   />
                 );
               })
