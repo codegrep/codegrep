@@ -33,15 +33,22 @@ export class FileViewer extends React.Component {
 
   scrollToFocusedLine() {
     var target = document.querySelector('.LineNumber--focused');
-    this.parentView.scrollTop = (this.props.line-1)*18 + 16 - screen.height/4;
+    if (this.parentView) {
+      this.parentView.scrollTop = (this.props.line-1)*18 + 16 - screen.height/4;
+    }
   }
 
   render() {
-    var {fileUrl} = this.props
+    var {currentFilePath} = this.props;
+    console.log('gonna render', this.props.currentFilePath);
     return (
       <div className="FullView" ref={(ref) => this.parentView = ref}>
         <CloseButton handleToggle={this.handleToggle}/>
-        <ConnectedCodeView setScroll={this.scrollToFocusedLine}/>
+        <ConnectedCodeView
+          key={this.props.currentFilePath}
+          filePath={this.props.currentFilePath}
+          setScroll={this.scrollToFocusedLine}
+        />
       </div>
     )
   }
@@ -49,6 +56,7 @@ export class FileViewer extends React.Component {
 
 export const ConnectedFileViewer = connect(
   (state) => ({
+    currentFilePath: state.uiFilters.fileUrl,
     line: state.uiFilters.line,
   })
 )(FileViewer);

@@ -26,37 +26,46 @@ export class CodeView extends React.Component {
     super(props);
     this.state = {
       content: '',
-      lastFilePath: '',
+      /* lastFilePath: '', */
     };
+    console.log('uo', this.state.content);
     this.openFile = this.openFile.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.currentFilePath !== this.props.currentFilePath) {
+  /* componentWillReceiveProps(nextProps) {
+    if (nextProps.filePath !== this.props.currentFilePath) {
       this.setState({content: ''})
     }
-  }
+  } */
 
-  componentDidMount() {
-    if (this.props.content) {
+  refresh() {
+    var {content, filePath} = this.props;
+    console.log(content, filePath, !!this.state.content);
+    if (content) {
       hljs.highlightBlock(this.code);
       return;
     }
-    this.loadFile(this.props.currentFilePath);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    var {content, currentFilePath, filePath} = this.props;
-    if (content || this.state.content) {
+    if (this.state.content) {
       hljs.highlightBlock(this.code);
       if (this.props.setScroll) {
         this.props.setScroll();
       }
       return;
     }
-    if (currentFilePath && currentFilePath != this.state.lastFilePath) {
+    this.loadFile(this.props.filePath);
+  }
+
+  componentDidMount() {
+    console.log('mount');
+    this.refresh();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('update');
+    this.refresh();
+    /* if (currentFilePath && currentFilePath != this.state.lastFilePath) {
       this.loadFile(currentFilePath);
-    }
+    } */
   }
 
   loadFile(fileUrl) {
@@ -67,7 +76,7 @@ export class CodeView extends React.Component {
       .then((response) => {
         this.setState({
           content: response,
-          lastFilePath: fileUrl
+          /* lastFilePath: fileUrl */
         })
       })
   }
@@ -78,8 +87,7 @@ export class CodeView extends React.Component {
   }
 
   render() {
-    var {filePath, content, length, start=1, openFile, focusLine, currentFilePath} = this.props;
-    var filePath = filePath || currentFilePath;
+    var {filePath, content, length, start=1, openFile} = this.props;
     var fetched = this.state.content;
     var length = fetched? (fetched.match(/\n/g) || []).length+1 : length;
     return (
@@ -89,7 +97,7 @@ export class CodeView extends React.Component {
           : null
         }
         <pre className="Snippet-code">
-          {length? <LineNumbers start={start} length={length} focus={focusLine}/> : null}
+          {length? <LineNumbers start={start} length={length}/> : null}
           <code ref={(ref) => this.code = ref}>
             {
               content || (fetched.length > 0? fetched: 'Loading ja')
@@ -108,16 +116,11 @@ CodeView.propTypes = {
   start: React.PropTypes.number,
   updateFileUrl: React.PropTypes.func.isRequired,
   toggleCodeView: React.PropTypes.func.isRequired,
-  focusLine: React.PropTypes.number,
-  currentFilePath: React.PropTypes.string,
   setScroll: React.PropTypes.func
 }
 
 export const ConnectedCodeView = connect(
-  (state) => ({
-    currentFilePath: state.uiFilters.fileUrl,
-    focusLine: state.uiFilters.line
-  }),
+  (state) => ({}),
   {
     updateFileUrl: updateFileUrl,
     toggleCodeView: toggleCodeView
