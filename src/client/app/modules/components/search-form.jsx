@@ -3,6 +3,8 @@ import _ from 'underscore'
 import {connect} from 'react-redux'
 import {
   updateSearchString,
+  updateSearchStringRegEx,
+  updateSearchStringCaseSensitive,
   updateLocation,
   updateResults,
 } from 'reducers/search'
@@ -18,23 +20,51 @@ export class SearchForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleSearchChange = this.handleSearchChange.bind(this)
+    this.handleSearchRegExToggle = this.handleSearchRegExToggle.bind(this)
+    this.handleSearchCaseSensitiveToggle = this.handleSearchCaseSensitiveToggle.bind(this)
     this.handleLocationChange = this.handleLocationChange.bind(this)
+    this.getSearchParamsFromProps = this.getSearchParamsFromProps.bind(this);
     this.debounceUpdateSearch = _.debounce(this.updateSearch, 200)
+  }
+
+  getSearchParamsFromProps() {
+    return {
+      searchString: this.props.searchString,
+      searchStringRegEx: this.props.searchStringRegEx,
+      searchStringCaseSensitive: this.props.searchStringCaseSensitive,
+      location: this.props.location
+    }
   }
 
   handleSearchChange(e) {
   	this.props.updateSearchString(e.target.value);
-    this.debounceUpdateSearch(e.target.value, this.props.location);
+    this.debounceUpdateSearch({...this.getSearchParamsFromProps(), searchString: e.target.value});
   }
 
   handleLocationChange(e) {
     this.props.updateLocation(e.target.value);
-    this.debounceUpdateSearch(this.props.searchString, e.target.value);
+    this.debounceUpdateSearch({...this.getSearchParamsFromProps(), location: e.target.value});
   }
 
-  updateSearch(searchString, location) {
-    const bashSafeSearchString = searchString.replace(/(.{1})/g,"\\$1"); // Insert backslash in front of every character
-    fetch(`/api/search?q=${bashSafeSearchString}&f=${location}`)
+  handleSearchRegExToggle() {
+    this.props.updateSearchStringRegEx(!this.props.searchStringRegEx);
+    this.debounceUpdateSearch({...this.getSearchParamsFromProps(), searchStringRegEx: !this.props.searchStringRegEx});
+  }
+
+  handleSearchCaseSensitiveToggle() {
+    this.props.updateSearchStringCaseSensitive(!this.props.searchStringCaseSensitive);
+    this.debounceUpdateSearch({...this.getSearchParamsFromProps(), searchStringCaseSensitive: !this.props.searchStringCaseSensitive});
+  }
+
+  updateSearch(params) {
+    if(!params.searchStringRegEx) {
+      // Escape regex characters
+      params.searchString = params.searchString.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+    }
+
+    const isCaseSensitive = params.searchStringCaseSensitive ? 'true' : 'false';
+
+    fetch(`/api/search?q=${params.searchString}&isCaseSensitive=${isCaseSensitive}&f=${params.location}`)
       .then((response) => {
         return response.json();
       })
@@ -44,12 +74,17 @@ export class SearchForm extends React.Component {
   }
 
   render() {
-    var {searchString, location, results, full} = this.props;
+    var {searchString, searchStringRegEx, searchStringCaseSensitive, location, results, full} = this.props;
+    console.log(this.props);
     return (
       <div className="SearchForm">
         <div className="FormContainer">
           { full? null : <div className="Slogan">CodeGrep!</div> }
           <input className="FormInput" type="text" value={searchString} onChange={this.handleSearchChange} placeholder="Search String"/>
+          <span className="SearchStringToggles">
+            <button className={'RegEx' + (searchStringRegEx ? ' active' : '')} onClick={this.handleSearchRegExToggle}>.*</button>
+            <button className={'CaseSensitive' + (searchStringCaseSensitive ? ' active' : '')} onClick={this.handleSearchCaseSensitiveToggle}>Aa</button>
+          </span>
           <input className="FormInput" type="text" value={location} onChange={this.handleLocationChange} placeholder="File directory"/>
         </div>
         <div className="ResultsContainer">
@@ -89,13 +124,17 @@ export class SearchForm extends React.Component {
 export const ConnectedSearchForm = connect(
   (state) => ({
     searchString: state.search.form.searchString,
+    searchStringRegEx: state.search.form.searchStringRegEx,
+    searchStringCaseSensitive: state.search.form.searchStringCaseSensitive,
     location: state.search.form.location,
     results: state.search.results,
     full: state.uiFilters.views.full,
   }),
   {
-    updateSearchString: updateSearchString,
-    updateLocation: updateLocation,
-    updateResults: updateResults,
+    updateSearchString,
+    updateSearchStringRegEx,
+    updateSearchStringCaseSensitive,
+    updateLocation,
+    updateResults,
   }
 )(SearchForm);

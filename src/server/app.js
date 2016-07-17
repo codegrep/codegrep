@@ -48,6 +48,12 @@ app.use(route.get('/api/search', function *() {
     args.push(f);
   }
 
+  // case sensitive (insensitive by default)
+  const isCaseSensitive = this.query['isCaseSensitive'];
+  if (!(typeof(isCaseSensitive) === 'string' && isCaseSensitive == 'true')) {
+    args.push(`-i`);
+  }
+
   // query
   if (q === '') {
     // only search by file name

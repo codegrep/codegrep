@@ -8,6 +8,11 @@
   overflow: scroll;
   box-sizing: border-box;
   border-right: 1px solid #15191c;
+
+  /* Limit width when code view presents */
+  &:not(:only-child) {
+    max-width: 500px;
+  }
 }
 
 .Slogan {
@@ -36,6 +41,32 @@
 
   input + input {
     margin-left: 8px;
+  }
+
+  .SearchStringToggles {
+    margin-right: 10px;
+
+    button {
+      background: #1b1d23;
+      padding: 10px;
+      border: 1px solid #15191c;
+      width: 45px;
+      color: #aaa;
+      font-size: 14px;
+      cursor: pointer;
+
+      &:hover {
+        color: #fff;
+      }
+
+      &.active {
+        background-color: #2c3139;
+      }
+    }
+
+    .CaseSensitive {
+      border-radius: 0 3px 3px 0;
+    }
   }
 }
 

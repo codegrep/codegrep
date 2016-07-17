@@ -5,6 +5,20 @@ export const updateSearchString = (searchString) => {
   }
 }
 
+export const updateSearchStringRegEx = (searchStringRegEx) => {
+  return {
+    type: 'UPDATE_SEARCH_FORM',
+    form: {searchStringRegEx}
+  }
+}
+
+export const updateSearchStringCaseSensitive = (searchStringCaseSensitive) => {
+  return {
+    type: 'UPDATE_SEARCH_FORM',
+    form: {searchStringCaseSensitive}
+  }
+}
+
 export const updateLocation = (location) => {
   return {
     type: 'UPDATE_SEARCH_FORM',
@@ -23,6 +37,8 @@ const getDefaultState = () => ({
   results: [],
   form: {
     searchString: '',
+    searchStringRegEx: false,
+    searchStringCaseSensitive: false,
     location: ''
   }
 })
