@@ -94,7 +94,7 @@ app.use(route.get('/api/file', function *() {
   if (typeof(f) !== 'string') {
     return this.status = 400;
   }
-  yield send(this, f);
+  yield send(this, f, {root: CSEARCHROOT});
 }));
 
 app.use(route.get('/api/lastupdate', function *() {

@@ -70,7 +70,7 @@ export class SearchForm extends React.Component {
                   <ConnectedCodeView
                     key={i}
                     filePath={file}
-                    content={code.join('\n')}
+                    content={code.join('\n')+'\n'}
                     length={code.length}
                     start={lno-3}
                     lno={lno}
