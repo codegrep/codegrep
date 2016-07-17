@@ -2,6 +2,7 @@
 
 const koa = require('koa');
 const path = require('path');
+const fs = require('fs');
 
 const mount = require('koa-mount');
 const route = require('koa-route');
@@ -84,6 +85,17 @@ app.use(route.get('/api/file', function *() {
     return this.status = 400;
   }
   yield send(this, f);
+}));
+
+app.use(route.get('/api/lastupdate', function *() {
+  this.body = yield new Promise(function (resolve, reject) {
+    fs.stat(process.env.CSEARCHINDEX, function (error, stats) {
+      if (error) {
+        return reject(error);
+      }
+      resolve(stats.mtime);
+    });
+  });
 }));
 
 // serves static assets
