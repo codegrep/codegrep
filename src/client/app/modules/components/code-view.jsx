@@ -14,29 +14,62 @@ export const LineNumbers = ({start, length}) => {
 export class CodeView extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      highlighted: false,
+      content: ''
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.filePath !== this.props.filePath) {
+      this.state.content = '';
+    }
   }
 
   componentDidMount() {
-    hljs.highlightBlock(this.code);
+    if (this.props.content) {
+      hljs.highlightBlock(this.code);
+      return;
+    }
+    this.loadFile(this.props.filePath);
   }
 
-  componentDidUpdate() {
-    hljs.highlightBlock(this.code);
+  componentDidUpdate(prevProps, prevState) {
+    var {content, filePath} = this.props;
+    if (content || this.state.content) {
+      hljs.highlightBlock(this.code);
+      return;
+    }
+    if (filePath !== prevProps.filePath) {
+      this.loadFile(filePath);
+    }
+  }
+
+  loadFile(fileUrl) {
+    fetch(`/api/file?f=${fileUrl}`)
+      .then((response) => {
+        return response.text();
+      })
+      .then((response) => {
+        this.setState({content: response})
+      })
   }
 
   render() {
-    var {filePath, content, length, start, openFile} = this.props;
+    var {filePath, content, length, start=1, openFile} = this.props;
+    var fetched = this.state.content;
+    var length = fetched? (fetched.match(/\n/g) || []).length : length;
     return (
       <div className="SnippetContainer">
-        {filePath?
+        {content?
           <a className="SnippetLink" onClick={() => {openFile(filePath)}}>{filePath}</a>
           : null
         }
         <pre className="Snippet-code">
-          <LineNumbers start={start} length={length}/>
+          {length? <LineNumbers start={start} length={length+1}/> : null}
           <code ref={(ref) => this.code = ref}>
             {
-              content
+              content || (fetched? fetched: 'Loading ja')
             }
           </code>
         </pre>
@@ -48,7 +81,7 @@ export class CodeView extends React.Component {
 CodeView.propTypes = {
   filePath: React.PropTypes.string,
   content: React.PropTypes.string,
-  length: React.PropTypes.number.isRequired,
-  start: React.PropTypes.number.isRequired,
+  length: React.PropTypes.number,
+  start: React.PropTypes.number,
   openFile: React.PropTypes.func,
 }

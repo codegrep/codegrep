@@ -19,30 +19,6 @@ export class FileViewer extends React.Component {
   constructor(props) {
     super(props);
     this.handleToggle = this.handleToggle.bind(this);
-    this.state = {
-      fileContent: ''
-    };
-  }
-
-  loadFile() {
-    this.setState({fileContent: ''});
-    fetch(`/api/file?f=${this.props.fileUrl}`)
-      .then((response) => {
-        return response.text();
-      })
-      .then((response) => {
-        this.setState({fileContent: response})
-      })
-  }
-
-  componentDidMount() {
-    this.loadFile();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps !== this.props) {
-      this.loadFile();
-    }
   }
 
   handleToggle(e) {
@@ -56,12 +32,7 @@ export class FileViewer extends React.Component {
       <div className="FullView">
         <CloseButton handleToggle={this.handleToggle}/>
         {
-          this.state.fileContent ?
-            (<CodeView
-                content={this.state.fileContent}
-                length={(this.state.fileContent.match(/\n/g) || []).length}
-                start={1}
-              />) : 'Loading ja'
+          fileUrl ? <CodeView filePath={fileUrl}/> : null
         }
       </div>
     )

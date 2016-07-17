@@ -79,7 +79,8 @@ export class SearchForm extends React.Component {
                     content={code.join('\n')}
                     length={code.length}
                     start={lno}
-                    openFile={this.openFile}/>
+                    openFile={this.openFile}
+                  />
                 );
               })
             }
