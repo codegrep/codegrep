@@ -1,5 +1,5 @@
 .SearchForm {
-  flex: 2;
+  @include flex(2);
   padding: 11px 16px;
   color: #ddd;
   height: 100%;
@@ -17,12 +17,12 @@
 }
 
 .FormContainer {
-  display: flex;
+  @include display-flex;
 
   input {
     font-size: 14px;
     font-family: 'Inconsolata', monospace;
-    flex: 1;
+    @include flex(1);
     padding: 10px;
     border: none;
     border: 1px solid #15191c;

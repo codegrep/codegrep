@@ -1,6 +1,6 @@
 .FullView {
   background-color: #1b1d23;
-  flex: 3;
+  @include flex(3);
   height: 100%;
   overflow: scroll;
 
@@ -28,7 +28,7 @@
   background-color: #21252b;
   z-index: 500;
   box-sizing: border-box;
-  display: flex;
+  @include display-flex;
   border-bottom: 1px solid #15191c;
 
   span {

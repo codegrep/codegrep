@@ -3,7 +3,7 @@
   overflow-x: hidden;
 
   pre {
-    display: flex;
+    @include display-flex;
     position: relative;
   }
 }

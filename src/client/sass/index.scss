@@ -4,6 +4,7 @@
  * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
 
 @import "compass/reset";
+@import "compass/css3/flexbox";
 
 @import 'partials/search';
 @import 'partials/full-view';
@@ -34,7 +35,7 @@ button {
 }
 
 .App {
-  display: flex;
+  @include display-flex;
   position: relative;
   overflow: hidden;
 }
@@ -42,7 +43,7 @@ button {
 .TogglerContainer {
   font-weight: bold;
   position: fixed;
-  display: flex;
+  @include display-flex;
   right: 24px;
   top: 9px;
   max-width: 100px;
@@ -50,7 +51,7 @@ button {
 }
 
 .Toggler {
-  flex: 1;
+  @include flex(1);
   font-size: 36px;
   color: #ddd;
   cursor: pointer;
