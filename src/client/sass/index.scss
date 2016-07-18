@@ -44,10 +44,12 @@ button {
   font-weight: bold;
   position: fixed;
   @include display-flex;
-  right: 24px;
-  top: 9px;
+  right: 0px;
+  top: 0px;
   max-width: 100px;
   z-index: 1000;
+  padding: 9px 20px;
+  background-color: #21252b;
 }
 
 .Toggler {
