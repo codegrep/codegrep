@@ -20,10 +20,12 @@ export class App extends React.Component {
   render() {
     var {views, toggleCodeView} = this.props;
     var {search, full} = views;
+    var searchClasses = classnames({hidden: !search});
+    var fullClasses = classnames({hidden: !full});
     return (
       <div className="App">
-        {search || !full? <ConnectedSearchForm/>: null}
-        {full? <ConnectedFileViewer/>: null}
+        <ConnectedSearchForm className={searchClasses}/>
+        <ConnectedFileViewer className={fullClasses}/>
       </div>
     )
   }

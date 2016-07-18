@@ -5,13 +5,17 @@ import 'whatwg-fetch';
 import {ConnectedCodeView} from 'components/code-view'
 import {
   toggleCodeView,
+  toggleSearchView,
   updateFileUrl
 } from 'reducers/ui-filters'
 
-export const CloseButton = ({handleToggle}) => {
+export const CloseButton = ({onClose, toggleFull}) => {
   return (
     <div className="TogglerContainer">
-      <button className='Toggler' onClick={handleToggle}>
+      <button className='Toggler' onClick={toggleFull}>
+        <i className="icon ion-android-expand"/>
+      </button>
+      <button className='Toggler' onClick={onClose}>
         <i className="icon ion-ios-close-empty"/>
       </button>
     </div>
@@ -30,14 +34,20 @@ export const Header = ({filePath}) => {
 export class FileViewer extends React.Component {
   constructor(props) {
     super(props);
-    this.handleToggle = this.handleToggle.bind(this);
+    this.closePanel = this.closePanel.bind(this);
+    this.toggleFullScreen = this.toggleFullScreen.bind(this);
     this.scrollToFocusedLine = this.scrollToFocusedLine.bind(this);
     this.scrollAmount = 0;
   }
 
-  handleToggle(e) {
+  closePanel() {
     this.props.toggleCodeView(false);
     this.props.updateFileUrl(null);
+    this.props.toggleSearchView(true);
+  }
+
+  toggleFullScreen() {
+    this.props.toggleSearchView(!this.props.views.search);
   }
 
   scrollToFocusedLine() {
@@ -45,10 +55,11 @@ export class FileViewer extends React.Component {
   }
 
   render() {
-    var {currentFilePath, line} = this.props;
+    var {currentFilePath, line, className = ''} = this.props;
+    if (!currentFilePath) return null;
     return (
-      <div className="FullView" ref={(ref) => this.parentView = this.parentView || ref}>
-        <CloseButton handleToggle={this.handleToggle}/>
+      <div className={"FullView " + className} ref={(ref) => this.parentView = this.parentView || ref}>
+        <CloseButton onClose={this.closePanel} toggleFull={this.toggleFullScreen}/>
         <Header filePath={currentFilePath}/>
         <ConnectedCodeView
           key={currentFilePath}
@@ -66,9 +77,11 @@ export const ConnectedFileViewer = connect(
   (state) => ({
     currentFilePath: state.uiFilters.fileUrl,
     line: state.uiFilters.line,
+    views: state.uiFilters.views
   }),
   {
     updateFileUrl: updateFileUrl,
-    toggleCodeView: toggleCodeView
+    toggleCodeView: toggleCodeView,
+    toggleSearchView: toggleSearchView,
   }
 )(FileViewer);

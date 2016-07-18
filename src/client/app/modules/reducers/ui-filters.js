@@ -2,10 +2,18 @@ export const toggleCodeView = (value) => {
   return {
     type: 'UPDATE_VIEW',
     view: 'full',
-    line: 1,
     value
   }
 };
+
+export const toggleSearchView = (value) => {
+  return {
+    type: 'UPDATE_VIEW',
+    view: 'search',
+    value
+  }
+};
+
 
 export const updateFileUrl = (fileUrl, line) => {
   if (fileUrl) {
