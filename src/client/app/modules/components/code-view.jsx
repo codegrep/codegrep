@@ -21,6 +21,10 @@ export const LineNumbers = ({start, length, lno}) => {
   )
 }
 
+function loadingString(filePath) {
+  return 'Loading ...';
+}
+
 function getLanguageByPath(path) {
   var extension = path.split(/\./).pop();
   if (hljs.getLanguage(extension)) return extension;
@@ -44,7 +48,7 @@ export class CodeInnerView extends React.Component {
     }
     return (
       <code className={ className } ref={refHandler}>
-        { content ? content : 'Loading ja' }
+        { content ? content : loadingString(filePath) }
       </code>
     );
   }
@@ -86,10 +90,12 @@ export class CodeView extends React.Component {
     }
     var cachedContent = window.cache.getItem(filePath);
     if (cachedContent) {
-      this.setState({
-        content: this.code.innerHTML,
-        cachedContent: cachedContent,
-      })
+      setTimeout(() => {
+        this.setState({
+          content: loadingString,
+          cachedContent: cachedContent,
+        })
+      }, 0);
     } else {
       this.loadFile(this.props.filePath);
     }
