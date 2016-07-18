@@ -63,7 +63,6 @@ export class FileViewer extends React.Component {
 
   render() {
     var {currentFilePath, line, className = ''} = this.props;
-    if (!currentFilePath) return null;
     return (
       <div className={"FullView " + className} ref={(ref) => this.parentView = this.parentView || ref}>
         <CloseButton onClose={this.closePanel} toggleFull={this.toggleFullScreen}/>
