@@ -79,7 +79,7 @@ app.use(route.post('/api/search', function *() {
       const chunks = currentData.split(/\n/);
       chunks.forEach(function(chunk, i) {
         if (i < chunks.length - 1) {
-          if (chunk !== '' && hashes.indexOf(chunk) !== -1) {
+          if (chunk !== '' && hashes.indexOf(chunk) === -1) {
             lines.push(chunk);
           }
         } else {
