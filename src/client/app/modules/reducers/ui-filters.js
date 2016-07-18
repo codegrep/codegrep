@@ -14,6 +14,12 @@ export const toggleSearchView = (value) => {
   }
 };
 
+export const setLastUpdate = (time) => {
+  return {
+    type: 'SET_LAST_UPDATE',
+    time
+  }
+};
 
 export const updateFileUrl = (fileUrl, line) => {
   if (fileUrl) {
@@ -38,7 +44,8 @@ const getDefaultState = () => ({
     full: false,
   },
   fileUrl: null,
-  line: null
+  line: null,
+  lastUpdate: null
 })
 
 export default (state, action) => {
@@ -61,6 +68,11 @@ export default (state, action) => {
         ...state,
         fileUrl: action.fileUrl,
         line: action.line
+      }
+    case 'SET_LAST_UPDATE':
+      return {
+        ...state,
+        lastUpdate: action.time
       }
     default:
       return state;

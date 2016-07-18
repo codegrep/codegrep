@@ -11,7 +11,8 @@ import {
 import {ConnectedCodeView} from 'components/code-view';
 import {
   updateFileUrl,
-  toggleCodeView
+  toggleCodeView,
+  setLastUpdate,
 } from 'reducers/ui-filters'
 import {resultsFromLocationSelector} from 'selectors/results';
 import 'whatwg-fetch';
@@ -26,7 +27,16 @@ export class SearchForm extends React.Component {
     this.handleSearchCaseSensitiveToggle = this.handleSearchCaseSensitiveToggle.bind(this)
     this.handleLocationChange = this.handleLocationChange.bind(this)
     this.getSearchParamsFromProps = this.getSearchParamsFromProps.bind(this);
-    this.debounceUpdateSearch = _.debounce(this.updateSearch, 200)
+    this.debounceUpdateSearch = _.debounce(this.updateSearch, 200);
+  }
+
+  componentDidMount() {
+    fetch('/api/lastupdate')
+      .then((response) => {
+        return response.json()
+      }).then((response) => {
+        this.props.setLastUpdate(moment(response))
+      })
   }
 
   getSearchParamsFromProps() {
@@ -94,7 +104,7 @@ export class SearchForm extends React.Component {
   }
 
   render() {
-    var {searchString, searchStringRegEx, searchStringCaseSensitive, location, results, full, className} = this.props;
+    var {searchString, searchStringRegEx, searchStringCaseSensitive, location, results, full, className, lastUpdate} = this.props;
     var hashes = results.map((result) => result.hash);
     return (
       <div className={"SearchForm " + className}>
@@ -127,12 +137,12 @@ export class SearchForm extends React.Component {
               (searchString === '' && location === '') ?
                 <span> Type in the searchbox to get started! </span> :
                 <span>
-                  {results.length} {searchString === '' ? 'files found' : 'results found for string'} <code>{searchString === '' ? '' : `'${searchString}'`}</code> at <code>{ location ===  '' ? 'any path' : `'${location}'`}</code>
+                  Search results for string <code>{searchString === '' ? '' : `'${searchString}'`}</code> at <code>{ location ===  '' ? 'any path' : `'${location}'`}</code>
                 </span>
             }
           </div>
           <div className="Results" ref={(ref) => this.resultView = this.resultView || ref} >
-            <ConnectedInfiniteScroll loadMore={() => this.loadMore(hashes)} hasMore={true}>
+            <ConnectedInfiniteScroll loadMore={() => this.loadMore(hashes)} hasMore={searchString || location}>
               {
                 results.map((result, i) => {
                   var {file, lno, above_lines, the_line, below_lines} = result;
@@ -152,6 +162,14 @@ export class SearchForm extends React.Component {
             </ConnectedInfiniteScroll>
           </div>
         </div>
+        <div className="Footer">
+          <div className="left">
+            {lastUpdate ? `Last update: ${lastUpdate.fromNow()}` : null }
+          </div>
+          <div className="right">
+            Made with&nbsp;<a href="https://github.com/codegrep/codegrep" className="ion-ios-heart pulse"></a>&nbsp;by Swit and Gott
+          </div>
+        </div>
       </div>
     )
   }
@@ -165,6 +183,7 @@ export const ConnectedSearchForm = connect(
     location: state.search.form.location,
     results: state.search.results,
     full: state.uiFilters.views.full,
+    lastUpdate: state.uiFilters.lastUpdate,
   }),
   {
     updateSearchString,
@@ -172,5 +191,6 @@ export const ConnectedSearchForm = connect(
     updateSearchStringCaseSensitive,
     updateLocation,
     updateResults,
+    setLastUpdate,
   }
 )(SearchForm);
