@@ -11,6 +11,9 @@
     "Sorawit Suriyakarn",
     "Saranyu Phusit"
   ],
+  "contributors": [
+    "Kasi Chonpimai"
+  ],
   "repository": "https://github.com/codegrep/codegrep",
   "license": "BSD-2-Clause",
   "dependencies": {

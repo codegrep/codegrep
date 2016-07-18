@@ -17,7 +17,11 @@ export const toggleSearchView = (value) => {
 
 export const updateFileUrl = (fileUrl, line) => {
   if (fileUrl) {
-    window.history.pushState('', '', '#/' + fileUrl + '//' + line);
+    if (typeof(line) === 'number' && line > 0) {
+      window.history.pushState('', '', '#/' + fileUrl + '//' + line);
+    } else {
+      window.history.pushState('', '', '#/' + fileUrl);
+    }
   } else {
     window.history.pushState('', '', '#/');
   }

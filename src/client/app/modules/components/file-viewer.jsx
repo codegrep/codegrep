@@ -22,13 +22,22 @@ export const CloseButton = ({onClose, toggleFull}) => {
   );
 }
 
-export const Header = ({filePath}) => {
-  return (
-    <div className="Header">
-      <span>Viewing File:</span>
-      <a href={filePath} className="SnippetLink">{filePath}</a>
-    </div>
-  );
+export const Header = ({filePath, lno}) => {
+  if (lno) {
+    return (
+      <div className="Header">
+        <span>Viewing File:</span>
+        <a href={'#/' + filePath + '//' + lno} target="_blank" className="SnippetLink">{filePath}:{lno}</a>
+      </div>
+    );
+  } else {
+    return (
+      <div className="Header">
+        <span>Viewing File:</span>
+        <a href={'#/' + filePath} target="_blank" className="SnippetLink">{filePath}</a>
+      </div>
+    );
+  }
 }
 
 export class FileViewer extends React.Component {
@@ -60,7 +69,7 @@ export class FileViewer extends React.Component {
     return (
       <div className={"FullView " + className} ref={(ref) => this.parentView = this.parentView || ref}>
         <CloseButton onClose={this.closePanel} toggleFull={this.toggleFullScreen}/>
-        <Header filePath={currentFilePath}/>
+        <Header filePath={currentFilePath} lno={line}/>
         <ConnectedCodeView
           key={currentFilePath}
           lno={line}
