@@ -12,8 +12,7 @@ const send = require('koa-send');
 const serve = require('koa-static');
 
 const app = koa();
-const exec = require('child-process-promise').exec;
-const shellescape = require('shell-escape');
+const spawn = require('child_process').spawn;
 const Reader = require('line-by-line');
 const CronJob = require('cron').CronJob;
 const CSEARCHROOT = process.env.CSEARCHROOT || '.';
@@ -35,17 +34,12 @@ new CronJob('00 00 * * * *', function() {
 app.use(bodyParser());
 
 app.use(route.post('/api/search', function *() {
-  console.log(this.request.body.hashes);
-
   const q = this.query['q'];
   if (typeof(q) !== 'string') {
     return this.status = 400;
   }
 
   const args = [];
-
-  // search binary
-  args.push('bin/csearch');
 
   // file
   const f = this.query['f'];
@@ -71,11 +65,45 @@ app.use(route.post('/api/search', function *() {
     args.push(q);
   }
 
-  const cmd = shellescape(args);
-  const result = yield exec(`${cmd} | head -n 10`);
+  const h = this.request.body.hashes;
+  const hashes = Array.isArray(h) ? h : [];
+  const result = yield new Promise(function (resolve, reject) {
+    let promissCalled = false;
+    const searchProcess = spawn('bin/csearch', args);
+
+    const lines = []
+    let currentData = '';
+    searchProcess.stdout.on('data', function(data) {
+      currentData += data.toString();
+
+      const chunks = currentData.split(/\n/);
+      chunks.forEach(function(chunk, i) {
+        if (i < chunks.length - 1) {
+          if (chunk !== '' && hashes.indexOf(chunk) !== -1) {
+            lines.push(chunk);
+          }
+        } else {
+          currentData = chunk;
+        }
+      });
+
+      if (lines.length >= 10) {
+        promissCalled = true;
+        searchProcess.kill();
+        resolve(lines.slice(0, 10));
+      }
+    });
+
+    searchProcess.on('close', function(code) {
+      if (!promissCalled) {
+        promissCalled = true;
+        resolve(lines);
+      }
+    });
+  });
 
   // removes last element because it's an empty string
-  const matches = result.stdout.split(/[\r\n]+/).slice(0, -1).map(function (resultLine) {
+  const matches = result.map(function (resultLine) {
     const splitResult = resultLine.split(':', 2);
     const file = splitResult[0];
     const lno = parseInt(splitResult[1], 10) || 1;
