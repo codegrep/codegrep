@@ -99,15 +99,15 @@ export class SearchForm extends React.Component {
               >Aa</button>
             <ReactTooltip id="searchStringCaseSensitiveTooltip" getContent={[() => (searchStringCaseSensitive ? 'Case Sensitive' : 'Case Insensitive')]}/>
           </span>
-          <input className="FormInput" type="text" value={location} onChange={this.handleLocationChange} placeholder="File directory"/>
+          <input className="FormInput" type="text" value={location} onChange={this.handleLocationChange} placeholder="File Path"/>
         </div>
         <div className="ResultsContainer">
           <div className="Summary">
             {
-              searchString.length === 0 ?
+              (searchString === '' && location === '') ?
                 <span> Type in the searchbox to get started! </span> :
                 <span>
-                  {results.length} results found for string <code>{`'${searchString}'`}</code> in  <code>{`'${location}'`}</code>
+                  {results.length} {searchString === '' ? 'files found' : 'results found for string'} <code>{searchString === '' ? '' : `'${searchString}'`}</code> at <code>{ location ===  '' ? 'any path' : `'${location}'`}</code>
                 </span>
             }
           </div>

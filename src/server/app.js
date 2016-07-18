@@ -101,6 +101,7 @@ app.use(route.get('/api/search', function *() {
           'above_lines': aboveLines,
           'below_lines': belowLines,
           'the_line': theLine,
+          'hash': 'abc',
         });
       });
     });
