@@ -10,7 +10,7 @@
   border-right: 1px solid #15191c;
 
   /* Limit width when code view presents */
-  &:not(:only-child) {
+  &:not(:last-child) {
     max-width: 500px;
   }
 }

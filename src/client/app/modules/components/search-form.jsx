@@ -15,6 +15,7 @@ import {
 } from 'reducers/ui-filters'
 import {resultsFromLocationSelector} from 'selectors/results';
 import 'whatwg-fetch';
+import ReactTooltip from 'react-tooltip'
 
 export class SearchForm extends React.Component {
   constructor(props) {
@@ -75,15 +76,31 @@ export class SearchForm extends React.Component {
 
   render() {
     var {searchString, searchStringRegEx, searchStringCaseSensitive, location, results, full} = this.props;
-    console.log(this.props);
+
     return (
       <div className="SearchForm">
         <div className="FormContainer">
           { full? null : <div className="Slogan">CodeGrep!</div> }
           <input className="FormInput" type="text" value={searchString} onChange={this.handleSearchChange} placeholder="Search String"/>
           <span className="SearchStringToggles">
-            <button className={'RegEx' + (searchStringRegEx ? ' active' : '')} onClick={this.handleSearchRegExToggle}>.*</button>
-            <button className={'CaseSensitive' + (searchStringCaseSensitive ? ' active' : '')} onClick={this.handleSearchCaseSensitiveToggle}>Aa</button>
+            <button className={'RegEx' + (searchStringRegEx ? ' active' : '')}
+                    onClick={this.handleSearchRegExToggle}
+                    data-tip="enabled"
+                    data-for="SearchStringRegExTooltip"
+                    data-place="bottom"
+                    data-effect="solid"
+                    data-border={true}
+              >.*</button>
+            <ReactTooltip id="SearchStringRegExTooltip" getContent={[() => (searchStringRegEx ? 'RegEx' : 'Non-RegEx')]}/>
+            <button className={'CaseSensitive' + (searchStringCaseSensitive ? ' active' : '')}
+                    onClick={this.handleSearchCaseSensitiveToggle}
+                    data-tip="enabled"
+                    data-for="searchStringCaseSensitiveTooltip"
+                    data-place="bottom"
+                    data-effect="solid"
+                    data-border={true}
+              >Aa</button>
+            <ReactTooltip id="searchStringCaseSensitiveTooltip" getContent={[() => (searchStringCaseSensitive ? 'Case Sensitive' : 'Case Insensitive')]}/>
           </span>
           <input className="FormInput" type="text" value={location} onChange={this.handleLocationChange} placeholder="File directory"/>
         </div>
