@@ -63,6 +63,7 @@ export class SearchForm extends React.Component {
   }
 
   updateSearch(params, hashes = [], append = false) {
+    this.resultView.scrollTop = 0;
     if(!params.searchStringRegEx) {
       // Escape regex characters
       params.searchString = params.searchString.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
@@ -130,7 +131,7 @@ export class SearchForm extends React.Component {
                 </span>
             }
           </div>
-          <div className="Results">
+          <div className="Results" ref={(ref) => this.resultView = this.resultView || ref} >
             <ConnectedInfiniteScroll loadMore={() => this.loadMore(hashes)} hasMore={true}>
               {
                 results.map((result, i) => {
