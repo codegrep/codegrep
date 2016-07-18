@@ -29,7 +29,7 @@ export const updateFileUrl = (fileUrl, line) => {
       window.history.pushState('', '', '#/' + fileUrl);
     }
   } else {
-    window.history.pushState('', '', '#/');
+    window.history.pushState('', '', '#');
   }
   return {
     type: 'UPDATE_FILE_URL',
