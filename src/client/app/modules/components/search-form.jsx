@@ -76,7 +76,6 @@ export class SearchForm extends React.Component {
 
   render() {
     var {searchString, searchStringRegEx, searchStringCaseSensitive, location, results, full} = this.props;
-
     return (
       <div className="SearchForm">
         <div className="FormContainer">

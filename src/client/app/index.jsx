@@ -7,6 +7,7 @@ import searchApp from 'reducers'
 
 //import '../scss'
 
+window.cache = new Cache(20); // cache up to 20 full source code items
 let store = createStore(searchApp, window.devToolsExtension ? window.devToolsExtension() : f => f);
 
 class Container extends React.Component {

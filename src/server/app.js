@@ -55,7 +55,7 @@ app.use(route.get('/api/search', function *() {
   }
 
   // query
-  if (q === '') {
+  if (q === '' && typeof(f) === 'string' && f !== '') {
     // only search by file name
     args.push('-l')
     args.push('.');
