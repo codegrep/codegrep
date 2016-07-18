@@ -13,6 +13,17 @@
   &:not(:last-child) {
     max-width: 500px;
   }
+
+  .__react_component_tooltip.type-dark {
+    background-color: #2598b8;
+  }
+
+  .__react_component_tooltip.type-dark.place-bottom {
+    &::after {
+      border-bottom-color: #2598b8;
+      border-bottom-width: 7px;
+    }
+  }
 }
 
 .Slogan {

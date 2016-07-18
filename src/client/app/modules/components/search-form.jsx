@@ -88,7 +88,6 @@ export class SearchForm extends React.Component {
                     data-for="SearchStringRegExTooltip"
                     data-place="bottom"
                     data-effect="solid"
-                    data-border={true}
               >.*</button>
             <ReactTooltip id="SearchStringRegExTooltip" getContent={[() => (searchStringRegEx ? 'RegEx' : 'Non-RegEx')]}/>
             <button className={'CaseSensitive' + (searchStringCaseSensitive ? ' active' : '')}
@@ -97,7 +96,6 @@ export class SearchForm extends React.Component {
                     data-for="searchStringCaseSensitiveTooltip"
                     data-place="bottom"
                     data-effect="solid"
-                    data-border={true}
               >Aa</button>
             <ReactTooltip id="searchStringCaseSensitiveTooltip" getContent={[() => (searchStringCaseSensitive ? 'Case Sensitive' : 'Case Insensitive')]}/>
           </span>
