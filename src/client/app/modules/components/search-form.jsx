@@ -16,6 +16,7 @@ import {
 import {resultsFromLocationSelector} from 'selectors/results';
 import 'whatwg-fetch';
 import ReactTooltip from 'react-tooltip'
+import InfiniteScroll from 'components/infinite-scroll'
 
 export class SearchForm extends React.Component {
   constructor(props) {
@@ -57,7 +58,11 @@ export class SearchForm extends React.Component {
     this.debounceUpdateSearch({...this.getSearchParamsFromProps(), searchStringCaseSensitive: !this.props.searchStringCaseSensitive});
   }
 
-  updateSearch(params) {
+  loadMore(hashes) {
+    this.debounceUpdateSearch(this.getSearchParamsFromProps(), hashes, true);
+  }
+
+  updateSearch(params, hashes = [], append = false) {
     if(!params.searchStringRegEx) {
       // Escape regex characters
       params.searchString = params.searchString.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
@@ -72,19 +77,24 @@ export class SearchForm extends React.Component {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          hashes: ['123', '456'],
+          hashes: hashes,
         })
       })
       .then((response) => {
         return response.json();
       })
       .then((response) => {
-        this.props.updateResults(response)
+        var results = response;
+        if (append) {
+          results = this.props.results.concat(response);
+        }
+        this.props.updateResults(results);
       })
   }
 
   render() {
     var {searchString, searchStringRegEx, searchStringCaseSensitive, location, results, full} = this.props;
+    var hashes = results.map((result) => result.hash);
     return (
       <div className="SearchForm">
         <div className="FormContainer">
@@ -121,22 +131,24 @@ export class SearchForm extends React.Component {
             }
           </div>
           <div className="Results">
-            {
-              results.map((result, i) => {
-                var {file, lno, above_lines, the_line, below_lines} = result;
-                var code = above_lines.concat(the_line, below_lines);
-                return (
-                  <ConnectedCodeView
-                    key={i}
-                    filePath={file}
-                    content={code.join('\n')+'\n'}
-                    length={code.length}
-                    start={lno-3}
-                    lno={lno}
-                  />
-                );
-              })
-            }
+            <InfiniteScroll loadMore={() => this.loadMore(hashes)} hasMore={true}>
+              {
+                results.map((result, i) => {
+                  var {file, lno, above_lines, the_line, below_lines} = result;
+                  var code = above_lines.concat(the_line, below_lines);
+                  return (
+                    <ConnectedCodeView
+                      key={i}
+                      filePath={file}
+                      content={code.join('\n')+'\n'}
+                      length={code.length}
+                      start={lno-3}
+                      lno={lno}
+                    />
+                  );
+                })
+              }
+            </InfiniteScroll>
           </div>
         </div>
       </div>
