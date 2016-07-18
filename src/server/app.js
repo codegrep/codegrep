@@ -3,6 +3,7 @@
 const koa = require('koa');
 const path = require('path');
 const fs = require('fs');
+const md5 = require('md5');
 
 const bodyParser = require('koa-bodyparser');
 const mount = require('koa-mount');
@@ -74,8 +75,8 @@ app.use(route.post('/api/search', function *() {
   const result = yield exec(`${cmd} | head -n 10`);
 
   // removes last element because it's an empty string
-  const matches = result.stdout.split(/[\r\n]+/).slice(0, -1).map(function (line) {
-    const splitResult = line.split(':', 2);
+  const matches = result.stdout.split(/[\r\n]+/).slice(0, -1).map(function (resultLine) {
+    const splitResult = resultLine.split(':', 2);
     const file = splitResult[0];
     const lno = parseInt(splitResult[1], 10) || 1;
     return new Promise(function (resolve, reject) {
@@ -106,7 +107,7 @@ app.use(route.post('/api/search', function *() {
           'above_lines': aboveLines,
           'below_lines': belowLines,
           'the_line': theLine,
-          'hash': 'abc',
+          'hash': md5(resultLine),
         });
       });
     });
