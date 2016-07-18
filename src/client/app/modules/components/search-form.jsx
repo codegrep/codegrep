@@ -132,34 +132,35 @@ export class SearchForm extends React.Component {
           <input className="FormInput" type="text" value={location} onChange={this.handleLocationChange} placeholder="File Path (absolute)"/>
         </div>
         <div className="ResultsContainer">
-          <div className="Summary">
-            {
-              (searchString === '' && location === '') ?
-                <span> Type in the searchbox to get started! </span> :
+          {
+            (searchString !== '' || location !== '') ?
+              <div className="Summary">
                 <span>
                   Search results for string <code>{searchString === '' ? '' : `'${searchString}'`}</code> at <code>{ location ===  '' ? 'any path' : `'${location}'`}</code>
                 </span>
-            }
-          </div>
+              </div> : null
+          }
           <div className="Results" ref={(ref) => this.resultView = this.resultView || ref} >
-            <ConnectedInfiniteScroll loadMore={() => this.loadMore(hashes)} hasMore={searchString || location}>
-              {
-                results.map((result, i) => {
-                  var {file, lno, above_lines, the_line, below_lines} = result;
-                  var code = above_lines.concat(the_line, below_lines);
-                  return (
-                    <ConnectedCodeView
-                      key={i}
-                      filePath={file}
-                      content={code.join('\n')+'\n'}
-                      length={code.length}
-                      start={lno-3}
-                      lno={lno}
-                    />
-                  );
-                })
-              }
-            </ConnectedInfiniteScroll>
+            { (results.length > 0) ?
+              <ConnectedInfiniteScroll loadMore={() => this.loadMore(hashes)} hasMore={searchString || location}>
+                {
+                  results.map((result, i) => {
+                    var {file, lno, above_lines, the_line, below_lines} = result;
+                    var code = above_lines.concat(the_line, below_lines);
+                    return (
+                      <ConnectedCodeView
+                        key={i}
+                        filePath={file}
+                        content={code.join('\n')+'\n'}
+                        length={code.length}
+                        start={lno-3}
+                        lno={lno}
+                      />
+                    );
+                  })
+                }
+              </ConnectedInfiniteScroll> : <div className="Empty">Type something to get started!</div>
+            }
           </div>
         </div>
         <div className="Footer">

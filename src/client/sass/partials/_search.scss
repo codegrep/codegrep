@@ -27,11 +27,10 @@
 }
 
 .Slogan {
-  margin-top: 4px;
+  margin-top: 9px;
   margin-right: 16px;
-  font-family: 'Lato', 'Open Sans';
-  font-weight: 800;
-  font-size: 24px;
+  font-family: 'Inconsolata', monospace;
+  font-size: 18px;
 }
 
 .FormContainer {
@@ -95,6 +94,7 @@
   .Results {
     flex: 1;
     overflow: scroll;
+    height: 100%;
   }
 }
 
@@ -118,6 +118,17 @@
     font-weight: 500;
     padding: 0;
   }
+}
+
+.Empty {
+  height: 100%;
+  padding-bottom: 50px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 34px;
+  color: #3a424c;
 }
 
 .Footer {
