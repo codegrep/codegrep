@@ -12,6 +12,7 @@ const send = require('koa-send');
 const serve = require('koa-static');
 
 const app = koa();
+const exec = require('child-process-promise').exec;
 const spawn = require('child_process').spawn;
 const Reader = require('line-by-line');
 const CronJob = require('cron').CronJob;
@@ -59,10 +60,12 @@ app.use(route.post('/api/search', function *() {
     // only search by file name
     args.push('-l')
     args.push('.');
-  } else {
+  } else if (q !== '') {
     // search also for line number
     args.push('-n');
     args.push(q);
+  } else {
+    return this.body = [];
   }
 
   const h = this.request.body.hashes;
