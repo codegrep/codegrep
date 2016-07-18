@@ -4,6 +4,7 @@ const koa = require('koa');
 const path = require('path');
 const fs = require('fs');
 
+const bodyParser = require('koa-bodyparser');
 const mount = require('koa-mount');
 const route = require('koa-route');
 const send = require('koa-send');
@@ -30,7 +31,11 @@ new CronJob('00 00 * * * *', function() {
 }, null, true);
 
 // apis
-app.use(route.get('/api/search', function *() {
+app.use(bodyParser());
+
+app.use(route.post('/api/search', function *() {
+  console.log(this.request.body.hashes);
+
   const q = this.query['q'];
   if (typeof(q) !== 'string') {
     return this.status = 400;

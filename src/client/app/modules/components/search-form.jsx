@@ -65,7 +65,16 @@ export class SearchForm extends React.Component {
 
     const isCaseSensitive = params.searchStringCaseSensitive ? 'true' : 'false';
 
-    fetch(`/api/search?q=${params.searchString}&isCaseSensitive=${isCaseSensitive}&f=${params.location}`)
+    fetch(`/api/search?q=${params.searchString}&isCaseSensitive=${isCaseSensitive}&f=${params.location}`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          hashes: ['123', '456'],
+        })
+      })
       .then((response) => {
         return response.json();
       })
