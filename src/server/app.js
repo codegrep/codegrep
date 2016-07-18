@@ -82,8 +82,12 @@ app.use(route.post('/api/search', function *() {
       const chunks = currentData.split(/\n/);
       chunks.forEach(function(chunk, i) {
         if (i < chunks.length - 1) {
-          if (chunk !== '' && hashes.indexOf(chunk) === -1) {
-            lines.push(chunk);
+          const hash = md5(chunk);
+          if (chunk !== '' && hashes.indexOf(hash) === -1) {
+            lines.push({
+              hash: hash,
+              line: chunk,
+            });
           }
         } else {
           currentData = chunk;
@@ -106,7 +110,8 @@ app.use(route.post('/api/search', function *() {
   });
 
   // removes last element because it's an empty string
-  const matches = result.map(function (resultLine) {
+  const matches = result.map(function (resultObject) {
+    const resultLine = resultObject.line;
     const splitResult = resultLine.split(':', 2);
     const file = splitResult[0];
     const lno = parseInt(splitResult[1], 10) || 1;
@@ -138,7 +143,7 @@ app.use(route.post('/api/search', function *() {
           'above_lines': aboveLines,
           'below_lines': belowLines,
           'the_line': theLine,
-          'hash': md5(resultLine),
+          'hash': resultObject.hash,
         });
       });
     });
