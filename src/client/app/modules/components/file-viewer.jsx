@@ -26,14 +26,12 @@ export const Header = ({filePath, lno}) => {
   if (lno) {
     return (
       <div className="Header">
-        <span>Viewing File:</span>
         <a href={'#/' + filePath + '//' + lno} target="_blank" className="SnippetLink">{filePath}:{lno}</a>
       </div>
     );
   } else {
     return (
       <div className="Header">
-        <span>Viewing File:</span>
         <a href={'#/' + filePath} target="_blank" className="SnippetLink">{filePath}</a>
       </div>
     );
