@@ -16,7 +16,7 @@ import {
 import {resultsFromLocationSelector} from 'selectors/results';
 import 'whatwg-fetch';
 import ReactTooltip from 'react-tooltip'
-import InfiniteScroll from 'components/infinite-scroll'
+import {ConnectedInfiniteScroll} from 'components/infinite-scroll'
 
 export class SearchForm extends React.Component {
   constructor(props) {
@@ -131,7 +131,7 @@ export class SearchForm extends React.Component {
             }
           </div>
           <div className="Results">
-            <InfiniteScroll loadMore={() => this.loadMore(hashes)} hasMore={true}>
+            <ConnectedInfiniteScroll loadMore={() => this.loadMore(hashes)} hasMore={true}>
               {
                 results.map((result, i) => {
                   var {file, lno, above_lines, the_line, below_lines} = result;
@@ -148,7 +148,7 @@ export class SearchForm extends React.Component {
                   );
                 })
               }
-            </InfiniteScroll>
+            </ConnectedInfiniteScroll>
           </div>
         </div>
       </div>

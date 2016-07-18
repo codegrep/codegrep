@@ -40,7 +40,9 @@ export default class InfiniteScroll extends React.Component {
       this.detachScrollListener();
       // call loadMore after detachScrollListener to allow
       // for non-async loadMore functions
-      this.props.loadMore();
+      if (this.props.isActive) {
+        this.props.loadMore();
+      }
     }
   }
   attachScrollListener() {
@@ -78,7 +80,8 @@ InfiniteScroll.PropTypes = {
   hasMore: React.PropTypes.bool,
   loadMore: React.PropTypes.func.isRequired,
   threshold: React.PropTypes.number,
-  useWindow: React.PropTypes.bool
+  useWindow: React.PropTypes.bool,
+  isActive: React.PropTypes.bool,
 }
 InfiniteScroll.defaultProps = {
   hasMore: false,
@@ -86,3 +89,9 @@ InfiniteScroll.defaultProps = {
   threshold: 100,
   useWindow: false
 };
+
+export const ConnectedInfiniteScroll = connect(
+  (state) => ({
+    isActive: this.state.views.search
+  }),
+)(CodeView);
