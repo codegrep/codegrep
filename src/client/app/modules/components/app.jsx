@@ -3,45 +3,36 @@ import {connect} from 'react-redux'
 import classnames from 'classnames';
 import {ConnectedSearchForm} from 'components/search-form'
 import {ConnectedFileViewer} from 'components/file-viewer'
-import {toggleCodeView} from 'reducers/ui-filters'
+import {toggleCodeView, updateFileUrl} from 'reducers/ui-filters'
 
-export class ViewToggler extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleToggle = this.handleToggle.bind(this);
-  }
+export class App extends React.Component {
+  componentDidMount() {
+    var hash = window.location.hash;
+    if (!hash.startsWith('#/')) return;
+    hash = hash.substring(2);
 
-  handleToggle(e) {
-    this.props.toggleCodeView(!this.props.full);
+    var splitResults = hash.split(/\/\//);
+    if (splitResults.length !== 2) return;
+    this.props.updateFileUrl(splitResults[0], parseInt(splitResults[1], 10));
+    this.props.toggleCodeView(true);
   }
 
   render() {
-    var classes = classnames('Toggler', {
-      'is-active': this.props.full
-    })
+    var {views, toggleCodeView} = this.props;
+    var {search, full} = views;
     return (
-      <div className="TogglerContainer">
-        <button className={classes} onClick={this.handleToggle}>
-          Code
-        </button>
+      <div className="App">
+        {search || !full? <ConnectedSearchForm/>: null}
+        {full? <ConnectedFileViewer/>: null}
       </div>
-    );
+    )
   }
-}
-
-export const App = ({views, toggleCodeView}) => {
-  var {search, full} = views;
-  return (
-    <div className="App">
-      {search || !full? <ConnectedSearchForm/>: null}
-      {full? <ConnectedFileViewer/>: null}
-    </div>
-  )
 }
 
 App.propTypes = {
   views: React.PropTypes.object.isRequired,
-  toggleCodeView: React.PropTypes.func.isRequired
+  updateFileUrl: React.PropTypes.func.isRequired,
+  toggleCodeView: React.PropTypes.func.isRequired,
 }
 
 export const ConnectedApp = connect(
@@ -49,6 +40,7 @@ export const ConnectedApp = connect(
     views: state.uiFilters.views,
   }),
   {
+    updateFileUrl: updateFileUrl,
     toggleCodeView: toggleCodeView
   }
 )(App);

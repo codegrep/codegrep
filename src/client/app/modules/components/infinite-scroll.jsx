@@ -34,7 +34,6 @@ export default class InfiniteScroll extends React.Component {
       offset = topPosition(el) + el.offsetHeight - scrollTop - window.innerHeight;
     } else {
       offset = el.offsetHeight - el.parentNode.scrollTop - el.parentNode.clientHeight;
-      console.log(offset, el.offsetHeight,  el.parentNode.scrollTop, el.parentNode.clientHeight)
     }
 
     if (offset < Number(this.props.threshold)) {

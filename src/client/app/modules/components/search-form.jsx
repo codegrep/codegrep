@@ -118,7 +118,7 @@ export class SearchForm extends React.Component {
               >Aa</button>
             <ReactTooltip id="searchStringCaseSensitiveTooltip" getContent={[() => (searchStringCaseSensitive ? 'Case Sensitive' : 'Case Insensitive')]}/>
           </span>
-          <input className="FormInput" type="text" value={location} onChange={this.handleLocationChange} placeholder="File Path"/>
+          <input className="FormInput" type="text" value={location} onChange={this.handleLocationChange} placeholder="File Path (absolute)"/>
         </div>
         <div className="ResultsContainer">
           <div className="Summary">

@@ -8,6 +8,11 @@ export const toggleCodeView = (value) => {
 };
 
 export const updateFileUrl = (fileUrl, line) => {
+  if (fileUrl) {
+    window.history.pushState('', '', '#/' + fileUrl + '//' + line);
+  } else {
+    window.history.pushState('', '', '#/');
+  }
   return {
     type: 'UPDATE_FILE_URL',
     fileUrl,
