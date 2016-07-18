@@ -12,7 +12,7 @@ export class App extends React.Component {
     hash = hash.substring(2);
 
     var splitResults = hash.split(/\/\//);
-    if (splitResults.length <= 0 || splitResults.length > 2) return;
+    if (splitResults.length <= 0 || splitResults[0] == '' || splitResults.length > 2) return;
     this.props.updateFileUrl(splitResults[0], parseInt(splitResults[1], 10) || 0);
     this.props.toggleCodeView(true);
     this.props.toggleSearchView(false);
