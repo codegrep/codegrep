@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {connect} from 'react-redux';
 
 function topPosition(domElt) {
   if (!domElt) {
@@ -92,6 +93,6 @@ InfiniteScroll.defaultProps = {
 
 export const ConnectedInfiniteScroll = connect(
   (state) => ({
-    isActive: this.state.views.search
-  }),
-)(CodeView);
+    isActive: state.uiFilters.views.search
+  })
+)(InfiniteScroll);
