@@ -2,7 +2,7 @@
   background-color: #1b1d23;
   @include flex(3);
   height: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
 
   pre {
     background: #1b1d23 !important;
@@ -16,7 +16,12 @@
 
   .SnippetContainer {
     margin-top: 56px;
+
+    .hljs {
+      margin-bottom: 0;
+    }
   }
+
 }
 
 .Header {

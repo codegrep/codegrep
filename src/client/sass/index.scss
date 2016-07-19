@@ -15,6 +15,10 @@ html {
   background-color: #21252b;
 }
 
+body {
+  overflow: hidden;
+}
+
 input[type="submit"],
 input[type="reset"],
 input[type="button"],
@@ -85,8 +89,11 @@ button {
   }
 }
 
-.prism-show-language-label {
-  display: none !important;
+.no-scroll-bar {
+  padding-right: 30px;
+  margin-right: -30px;
+  padding-bottom: 30px;
+  margin-bottom: -30px;
 }
 
 .pulse:before {
