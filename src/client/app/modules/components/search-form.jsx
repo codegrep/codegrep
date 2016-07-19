@@ -107,7 +107,7 @@ export class SearchForm extends React.Component {
     var {searchString, searchStringRegEx, searchStringCaseSensitive, location, results, full, className, lastUpdate} = this.props;
     var hashes = results.map((result) => result.hash);
     return (
-      <div className={"SearchForm" + className}>
+      <div className={"SearchForm " + className}>
         <div className="FormContainer">
           { full? null : <div className="Slogan">CodeGrep!</div> }
           <input className="FormInput" type="text" value={searchString} onChange={this.handleSearchChange} placeholder="Search String"/>
