@@ -15,10 +15,11 @@
   }
 
   .SnippetContainer {
-    margin-top: 56px;
+      margin-top: 56px;
 
     .hljs {
       margin-bottom: 0;
+      overflow: hidden;
     }
   }
 }

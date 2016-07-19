@@ -20,11 +20,11 @@
 .Snippet-code {
   background: #2b303b;
   border: 1px solid #181a1f;
-  overflow: auto;
+  overflow: hidden;
 
   .hljs {
     display: block;
-    overflow: initial;
+    overflow: hidden;
     font-family: 'Inconsolata', monospace;
     font-size: 15px;
     line-height: 20px;
@@ -33,6 +33,7 @@
     z-index: 1;
     margin: 16px 0;
     padding-left: 64px;
+    box-sizing: border-box;
   }
 }
 
