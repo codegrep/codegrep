@@ -107,7 +107,7 @@ export class SearchForm extends React.Component {
     var {searchString, searchStringRegEx, searchStringCaseSensitive, location, results, full, className, lastUpdate} = this.props;
     var hashes = results.map((result) => result.hash);
     return (
-      <div className={"SearchForm " + className}>
+      <div className={"SearchForm" + className}>
         <div className="FormContainer">
           { full? null : <div className="Slogan">CodeGrep!</div> }
           <input className="FormInput" type="text" value={searchString} onChange={this.handleSearchChange} placeholder="Search String"/>
@@ -140,7 +140,7 @@ export class SearchForm extends React.Component {
                 </span>
               </div> : null
           }
-          <div className="Results" ref={(ref) => this.resultView = this.resultView || ref} >
+          <div className="Results no-scroll-bar" ref={(ref) => this.resultView = this.resultView || ref} >
             { (results.length > 0) ?
               <ConnectedInfiniteScroll loadMore={() => this.loadMore(hashes)} hasMore={searchString || location}>
                 {
