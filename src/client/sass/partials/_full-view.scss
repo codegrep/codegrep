@@ -15,7 +15,11 @@
   }
 
   .SnippetContainer {
-      margin-top: 56px;
+    margin-top: 56px;
+
+    .Snippet-code {
+      overflow: hidden;
+    }
 
     .hljs {
       margin-bottom: 0;
