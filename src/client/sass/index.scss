@@ -90,7 +90,7 @@ button {
 }
 
 .no-scroll-bar {
-  margin-right: -15px;
+  margin-right: 0px; /* -15px; */
   padding-bottom: 15px;
   margin-bottom: -15px;
 }
@@ -174,4 +174,13 @@ button {
    transform: scale(1);
  }
 
+}
+
+::-webkit-scrollbar{
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb{
+   background-color: rgba(255,255,255,0.5);
 }
