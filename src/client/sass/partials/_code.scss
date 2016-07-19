@@ -20,11 +20,12 @@
 .Snippet-code {
   background: #2b303b;
   border: 1px solid #181a1f;
-  overflow: auto;
+  overflow: hidden;
 
   .hljs {
     display: block;
-    overflow: visible;
+    overflow-y: hidden;
+    overflow-x: visible;
     font-family: 'Inconsolata', monospace;
     font-size: 15px;
     line-height: 20px;
