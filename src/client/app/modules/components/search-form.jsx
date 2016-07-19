@@ -22,10 +22,13 @@ import {ConnectedInfiniteScroll} from 'components/infinite-scroll'
 export class SearchForm extends React.Component {
   constructor(props) {
     super(props);
-    this.handleSearchChange = this.handleSearchChange.bind(this)
-    this.handleSearchRegExToggle = this.handleSearchRegExToggle.bind(this)
-    this.handleSearchCaseSensitiveToggle = this.handleSearchCaseSensitiveToggle.bind(this)
-    this.handleLocationChange = this.handleLocationChange.bind(this)
+    this.state = {
+      hasMore: false,
+    };
+    this.handleSearchChange = this.handleSearchChange.bind(this);
+    this.handleSearchRegExToggle = this.handleSearchRegExToggle.bind(this);
+    this.handleSearchCaseSensitiveToggle = this.handleSearchCaseSensitiveToggle.bind(this);
+    this.handleLocationChange = this.handleLocationChange.bind(this);
     this.getSearchParamsFromProps = this.getSearchParamsFromProps.bind(this);
     this.debounceUpdateSearch = _.debounce(this.updateSearch, 200);
   }
@@ -98,6 +101,11 @@ export class SearchForm extends React.Component {
       })
       .then((response) => {
         var results = response;
+        if (results.length == 0) {
+          this.state.hasMore = false;
+        } else {
+          this.state.hasMore = true;
+        }
         if (append) {
           results = this.props.results.concat(response);
         }
@@ -144,7 +152,7 @@ export class SearchForm extends React.Component {
           }
           <div className="Results no-scroll-bar" ref={(ref) => this.resultView = this.resultView || ref} >
             { (results.length > 0) ?
-              <ConnectedInfiniteScroll loadMore={() => this.loadMore(hashes)} hasMore={searchString || location}>
+              <ConnectedInfiniteScroll loadMore={() => this.loadMore(hashes)} hasMore={(searchString || location) && (this.state.hasMore !== false)}>
                 {
                   results.map((result, i) => {
                     var {file, lno, above_lines, the_line, below_lines} = result;
@@ -170,7 +178,7 @@ export class SearchForm extends React.Component {
             {lastUpdate ? `Last index: ${lastUpdate.fromNow()}` : null }
           </div>
           <div className="right">
-            Made with&nbsp;<a href="https://github.com/codegrep/codegrep" className="ion-ios-heart pulse"></a>&nbsp;by Swit and Gott
+            Made with&nbsp;<a href="https://github.com/codegrep/codegrep" className="ion-ios-heart pulse"></a>&nbsp;by <a href="https://github.com/sorawit">Swit</a> and <a href="https://gott.webflow.io">Gott</a>
           </div>
         </div>
       </div>
