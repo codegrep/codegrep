@@ -178,7 +178,7 @@ export class SearchForm extends React.Component {
             {lastUpdate ? `Last index: ${lastUpdate.fromNow()}` : null }
           </div>
           <div className="right">
-            Made with&nbsp;<a href="https://github.com/codegrep/codegrep" className="ion-ios-heart pulse"></a>&nbsp;by <a href="https://github.com/sorawit">Swit</a> and <a href="https://gott.webflow.io">Gott</a>
+            Made with&nbsp;<a href="https://github.com/codegrep/codegrep" target="_blank" className="ion-ios-heart pulse"></a>&nbsp;by <a href="https://github.com/sorawit" target="_blank">Swit</a> and <a href="https://gott.webflow.io" target="_blank">Gott</a>
           </div>
         </div>
       </div>
