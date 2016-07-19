@@ -11,6 +11,7 @@
 
   /* Limit width when code view presents */
   &:not(:last-child) {
+    min-width: 500px;
     max-width: 500px;
   }
 
