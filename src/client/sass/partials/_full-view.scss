@@ -2,7 +2,7 @@
   background-color: #1b1d23;
   @include flex(3);
   height: 100%;
-  overflow-y: scroll;
+  overflow: auto;
 
   pre {
     background: #1b1d23 !important;
@@ -21,7 +21,10 @@
       margin-bottom: 0;
     }
   }
+}
 
+.FullCode {
+  display: inline-block;
 }
 
 .Header {
