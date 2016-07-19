@@ -17,7 +17,7 @@ import {
 import {resultsFromLocationSelector} from 'selectors/results';
 import 'whatwg-fetch';
 import ReactTooltip from 'react-tooltip'
-import {ConnectedInfiniteScroll} from 'components/infinite-scroll'
+import {SuperFuckingAwesomeScrollbars} from './super-fucking-awesome-scrollbars'
 
 export class SearchForm extends React.Component {
   constructor(props) {
@@ -150,11 +150,20 @@ export class SearchForm extends React.Component {
                 </span>
               </div> : null
           }
-          <div className="Results no-scroll-bar" ref={(ref) => this.resultView = this.resultView || ref} >
-            { (results.length > 0) ?
-              <ConnectedInfiniteScroll loadMore={() => this.loadMore(hashes)} hasMore={(searchString || location) && (this.state.hasMore !== false)}>
-                {
-                  results.map((result, i) => {
+          <SuperFuckingAwesomeScrollbars
+            onScroll={(e) => {
+              // If no more to load, leave
+              if(!((searchString || location) && (this.state.hasMore !== false))) return;
+              // Custom Infinite Scrolling
+              const heightThreshold = 300; // If scroll pass 300px above bottom, load more
+              const el = e.currentTarget;
+              if(el.scrollTop+el.clientHeight+heightThreshold > el.scrollHeight) {
+                this.loadMore(hashes);
+              }
+            }}>
+            <div className="Results" ref={(ref) => this.resultView = this.resultView || ref} >
+              { (results.length > 0) ?
+                  (results.map((result, i) => {
                     var {file, lno, above_lines, the_line, below_lines} = result;
                     var code = above_lines.concat(the_line, below_lines);
                     return (
@@ -168,10 +177,10 @@ export class SearchForm extends React.Component {
                       />
                     );
                   })
-                }
-              </ConnectedInfiniteScroll> : <div className="Empty">Type something to get started!</div>
-            }
-          </div>
+                ) : <div className="Empty">Type something to get started!</div>
+              }
+            </div>
+          </SuperFuckingAwesomeScrollbars>
         </div>
         <div className="Footer">
           <div className="left">

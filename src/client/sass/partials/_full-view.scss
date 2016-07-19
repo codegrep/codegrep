@@ -1,6 +1,8 @@
 .FullView {
   background-color: #1b1d23;
   @include flex(3);
+  @include display-flex;
+  @include flex-direction(column);
   height: 100%;
   overflow: auto;
 
@@ -15,8 +17,6 @@
   }
 
   .SnippetContainer {
-    margin-top: 56px;
-
     .Snippet-code {
       overflow: hidden;
     }
@@ -33,8 +33,7 @@
 }
 
 .Header {
-  position: absolute;;
-  top: 0;
+  @include flex(initial);
   color: white;
   width: 100%;
   padding: 13px 16px 12px;

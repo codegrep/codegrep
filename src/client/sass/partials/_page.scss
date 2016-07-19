@@ -10,7 +10,6 @@ body,
   overflow: hidden;
 }
 
-
 input[type="submit"],
 input[type="reset"],
 input[type="button"],
@@ -31,7 +30,7 @@ button {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .App {
@@ -174,4 +173,10 @@ button {
 
 ::-webkit-scrollbar-thumb{
    background-color: rgba(255,255,255,0.5);
+}
+
+.thumb-vertical,
+.thumb-horizontal {
+    background: rgba(225, 155, 247,0.4);
+    border-radius: 3px;
 }

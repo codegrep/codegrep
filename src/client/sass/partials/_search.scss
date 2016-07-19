@@ -2,7 +2,7 @@
   @include flex(2);
   @include display-flex;
   @include flex-direction(column);
-  padding: 11px 16px;
+  padding: 11px 0 11px 16px;
   color: #ddd;
   height: 100%;
   overflow-y: hidden;
@@ -37,6 +37,7 @@
 .FormContainer {
   @include display-flex;
   @include flex(initial);
+  padding-right: 16px;
 
   input {
     font-size: 14px;
@@ -93,9 +94,10 @@
   padding-top: 50px;
 
   .Results {
-    flex: 1;
-    overflow: scroll;
+    @include flex(1);
+    overflow: visible;
     height: 100%;
+    padding-right: 16px;
   }
 }
 
@@ -103,7 +105,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  right: 16px;
   border-top: 1px solid #3c424e;
   margin: 24px 0;
 
@@ -139,6 +141,7 @@
   padding: 10px 0 4px 0;
   font-weight: 400;
   font-size: 13px;
+  padding-right: 16px;
 
   a {
   color:inherit;
