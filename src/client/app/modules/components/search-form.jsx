@@ -119,7 +119,7 @@ export class SearchForm extends React.Component {
                     data-place="bottom"
                     data-effect="solid"
               >.*</button>
-            <ReactTooltip id="SearchStringRegExTooltip" getContent={[() => (searchStringRegEx ? 'RegEx' : 'Non-RegEx')]}/>
+            <ReactTooltip id="SearchStringRegExTooltip" getContent={[() => (searchStringRegEx ? 'RegEx' : 'Plain Text')]}/>
             <button className={'CaseSensitive' + (searchStringCaseSensitive ? ' active' : '')}
                     onClick={this.handleSearchCaseSensitiveToggle}
                     data-tip="enabled"
@@ -165,7 +165,7 @@ export class SearchForm extends React.Component {
         </div>
         <div className="Footer">
           <div className="left">
-            {lastUpdate ? `Last update: ${lastUpdate.fromNow()}` : null }
+            {lastUpdate ? `Last index: ${lastUpdate.fromNow()}` : null }
           </div>
           <div className="right">
             Made with&nbsp;<a href="https://github.com/codegrep/codegrep" className="ion-ios-heart pulse"></a>&nbsp;by Swit and Gott
