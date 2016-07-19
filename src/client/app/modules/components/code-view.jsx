@@ -6,7 +6,6 @@ import {
   toggleCodeView,
   updateFileUrl
 } from 'reducers/ui-filters'
-import { Scrollbars } from 'react-custom-scrollbars';
 
 export const LineNumbers = ({start, length, lno}) => {
   start = Math.max(start, 1)
