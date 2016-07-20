@@ -14,7 +14,7 @@ export class SuperFuckingAwesomeScrollbars extends Component {
         renderThumbHorizontal={props => <div {...props} className="thumb-horizontal"/>}
         renderThumbVertical={props => <div {...props} className="thumb-vertical"/>}
         {...this.props}
-        ref={(ref) => this.scrollbars = ref}>
+        ref={(ref) => this.scrollbars = this.scrollbars || ref}>
         {this.props.children}
       </Scrollbars>
     );
