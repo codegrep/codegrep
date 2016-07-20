@@ -59,7 +59,7 @@ export class FileViewer extends React.Component {
 
   scrollToFocusedLine() {
     var scrollAmount =  (this.props.line-1)*20 + 16 - screen.height/4;
-    console.log('scroll', scrollAmount, this.scrollbars);
+    // console.log('scroll', scrollAmount, this.scrollbars);
     this.scrollbars.scrollTop(scrollAmount);
   }
 

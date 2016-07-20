@@ -32,7 +32,7 @@ export class App extends React.Component {
     this.tryOpenFile();
 
     var lang = getParameterByName('lang');
-    console.log(lang);
+    // console.log(lang);
     if (lang && typeof(lang) === 'string') {
       this.props.updateLocation(lang + '$');
     }

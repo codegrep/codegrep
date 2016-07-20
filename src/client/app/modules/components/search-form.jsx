@@ -155,7 +155,7 @@ export class SearchForm extends React.Component {
               // If no more to load, leave
               if(!((searchString || location) && (this.state.hasMore !== false))) return;
               // Custom Infinite Scrolling
-              const heightThreshold = 300; // If scroll pass 300px above bottom, load more
+              const heightThreshold = 600; // If scroll pass 600px above bottom, load more
               const el = e.currentTarget;
               if(el.scrollTop+el.clientHeight+heightThreshold > el.scrollHeight) {
                 this.loadMore(hashes);
