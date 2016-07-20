@@ -48,6 +48,16 @@
   z-index: 100;
   color: #999;
   background: #2b303b;
+  box-sizing: border-box;
+}
+
+.LineNumbersBackgroundContainer {
+  position: absolute;
+  width: 100%;
+  font-family: 'Inconsolata', monospace;
+  margin: 16px 0;
+  padding: 0;
+  color: #999;
   text-align: right;
   padding-right: 10px;
   box-sizing: border-box;

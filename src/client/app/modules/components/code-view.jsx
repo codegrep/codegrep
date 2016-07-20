@@ -22,6 +22,20 @@ export const LineNumbers = ({start, length, lno}) => {
   )
 }
 
+export const LineNumbersBackground = ({start, length, lno}) => {
+  start = Math.max(start, 1)
+  return (
+    <div className="LineNumbersBackgroundContainer">
+        {_.range(start, start+length).map((number) => {
+            var classes = classnames('LineNumber', {
+              'LineNumber--focused': lno == number
+            });
+            return <div key={number} className={classes}>&nbsp;</div>
+        })}
+    </div>
+  )
+}
+
 function loadingString(filePath) {
   return 'Loading ...';
 }
@@ -143,6 +157,7 @@ export class CodeView extends React.Component {
         }
         <pre className="Snippet-code">
           {length? <LineNumbers start={start} length={length} lno={lno}/> : null}
+          {length? <LineNumbersBackground start={start} length={length} lno={lno}/> : null}
           <SuperFuckingAwesomeHorizontalScrollbars>
             <CodeInnerView
               key={filePath}
