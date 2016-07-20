@@ -6,6 +6,7 @@ import {
   toggleCodeView,
   updateFileUrl
 } from 'reducers/ui-filters'
+import {SuperFuckingAwesomeHorizontalScrollbars} from './super-fucking-awesome-scrollbars'
 
 export const LineNumbers = ({start, length, lno}) => {
   start = Math.max(start, 1)
@@ -142,12 +143,14 @@ export class CodeView extends React.Component {
         }
         <pre className="Snippet-code">
           {length? <LineNumbers start={start} length={length} lno={lno}/> : null}
-          <CodeInnerView
-            key={filePath}
-            filePath={filePath}
-            content={content || fetched}
-            refHandler={this.refHandler}
-          />
+          <SuperFuckingAwesomeHorizontalScrollbars>
+            <CodeInnerView
+              key={filePath}
+              filePath={filePath}
+              content={content || fetched}
+              refHandler={this.refHandler}
+            />
+        </SuperFuckingAwesomeHorizontalScrollbars>
         </pre>
       </div>
     )

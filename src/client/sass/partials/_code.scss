@@ -24,6 +24,7 @@
 
   .hljs {
     display: block;
+    white-space: pre;
     overflow: visible;
     font-family: 'Inconsolata', monospace;
     font-size: 15px;
@@ -43,7 +44,13 @@
   font-family: 'Inconsolata', monospace;
   margin: 16px 0;
   padding: 0;
+  width: 60px;
+  z-index: 100;
   color: #999;
+  background: #2b303b;
+  text-align: right;
+  padding-right: 10px;
+  box-sizing: border-box;
 }
 
 .LineNumber {

@@ -20,3 +20,29 @@ export class SuperFuckingAwesomeScrollbars extends Component {
     );
   }
 }
+
+export class SuperFuckingAwesomeHorizontalScrollbars extends Component {
+  render() {
+    const containerStyle = {
+      position: 'relative',
+      overflow: 'hidden',
+      width: '100%'
+    };
+    const viewStyle = {
+      position: 'relative',
+      width: '100%',
+      marginBottom: '-5px',
+      overflowX: 'scroll',
+      overflowY: 'visible'
+    };
+
+    return (
+      <SuperFuckingAwesomeScrollbars
+        className="horizontal-scrollbars"
+        renderView={props => <div {...props} style={viewStyle}/>}
+        {...this.props} >
+        {this.props.children}
+      </SuperFuckingAwesomeScrollbars>
+    );
+  }
+}
