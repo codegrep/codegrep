@@ -179,6 +179,7 @@ button {
 .thumb-horizontal {
     background: rgba(225, 155, 247,0.4);
     border-radius: 3px;
+    @include transition(height 500ms, transform 100ms);
 }
 
 .horizontal-scrollbars {
